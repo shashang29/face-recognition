@@ -91,7 +91,7 @@ class App extends React.Component {
     this.setState({ input: event.target.value })
   }
   onPictureSubmit = () => {
-    this.setState({imageUrl: this.state.input});
+    this.setState({ imageUrl: this.state.input });
     fetch('https://thawing-fjord-68352.herokuapp.com/imageurl', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -149,9 +149,11 @@ class App extends React.Component {
         <Navigation
           onRouteChange={this.onRouteChange}
           isSignedIn={isSignedIn} />
+        <Logo />
+
         {route === 'home' ?
           <div>
-            <Logo />
+
             <Rank
               first_name={this.state.user.first_name}
               entries={this.state.user.entries} />
