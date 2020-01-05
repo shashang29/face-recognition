@@ -2,7 +2,6 @@ import React from 'react';
 import Navigation from './components/Navigation/Navigation';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
-import Logo from './components/Logo/Logo';
 import Facerecognition from './components/Facerecognition/Facerecognition';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
@@ -149,7 +148,7 @@ class App extends React.Component {
         <Navigation
           onRouteChange={this.onRouteChange}
           isSignedIn={isSignedIn} />
-        <Logo />
+      
 
         {route === 'home' ?
           <div>

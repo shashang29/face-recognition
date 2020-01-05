@@ -4,9 +4,9 @@ import './Logo.css'
 import logo from './icon3.png'
 const Logo = () => {
     return (
-        <div className='ma5 mt3'>
-            <Tilt className="Tilt shadow-2" options={{ max: 60 }} style={{ height: 150, width: 150 }} >
-                <div className="Tilt-inner pa3"> <img style={{ paddingTop: '5px' }} src={logo} alt='logo' /> </div>
+        <div className='ml4 mt3 mb3'>
+            <Tilt className="Tilt shadow-2" options={{ max: 60 }} style={{ maxWidth: '150px', maxHeight:'150px' }} >
+                <div className="Tilt-inner pa3"> <img style={{ maxWidth: '100%', maxHeight:'100%' }} src={logo} alt='logo' /> </div>
             </Tilt>
         </div>
     )
