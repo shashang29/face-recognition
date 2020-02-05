@@ -56,10 +56,12 @@ class Register extends React.Component {
             .then(response => response.json())
             .then(responsedata => {
                 if (responsedata.id) {
+                    onPending(false);
                     loadUser(responsedata);
-                    onRouteChange('home')
+                    onRouteChange('home');
                 }
                 else {
+                    onPending(false);
                     alert(responsedata);
                 }
 

@@ -40,13 +40,13 @@ class Signin extends React.Component {
         })
             .then(response => response.json())
             .then(responsedata => {
+                onPending(false);
                 if (responsedata.id) {
-                    onPending(false);
+                    
                     loadUser(responsedata);
                     onRouteChange('home');
                 }
                 else {
-                    onPending(false);
                     alert(responsedata);
                 }
             })
