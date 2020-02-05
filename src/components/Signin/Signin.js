@@ -34,7 +34,6 @@ class Signin extends React.Component {
         const { onPending, loadUser, onRouteChange } = this.props;
         
         if (!this.emailIsValid(this.state.signedInEmail) || this.state.signedInPassword === '') { 
-            document.input.focus()
         alert('Invalid email or password')
         } 
         else {
@@ -92,7 +91,7 @@ class Signin extends React.Component {
                             <button
                                 onClick={this.onSubmitSignIn}
                                 className="ph3 pv2 input-reset ba b--black bg-transparent grow pointer f5" type="submit">
-                                {pending && <div class="loader"></div>}
+                                {pending && <div className="loader"></div>}
                                 {!pending && <span>Sign in</span>}
                             </button>
                         </div>

@@ -38,9 +38,16 @@ class Register extends React.Component {
             this.onSubmitRegister();
         }
     }
+    emailIsValid (email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+      }
 
     onSubmitRegister = () => {
         const { onPending, onRouteChange, loadUser } = this.props;
+        if (!this.emailIsValid(this.state.email) ) { 
+            alert('Type a valid email id')
+            } 
+            else{
         onPending(true);
         fetch('https://thawing-fjord-68352.herokuapp.com/register', {
             method: 'post',
@@ -65,6 +72,7 @@ class Register extends React.Component {
                 }
 
             })
+        }
     }
 
     render() {
@@ -108,7 +116,7 @@ class Register extends React.Component {
                                 onClick={this.onSubmitRegister}
                                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" >
 
-                                {this.props.pending && <div class="loader"></div>}
+                                {this.props.pending && <div className="loader"></div>}
                                 {!this.props.pending && <span>Register</span>}
                             </button>
                         </div>

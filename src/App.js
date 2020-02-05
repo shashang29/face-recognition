@@ -31,7 +31,7 @@ const particlesOptions = {
 const initialState = {
   input: '',
   imageUrl: '',
-  box: {},
+  boxes: [],
   route: 'signin',
   isSignedIn: false,
   pending: false,
@@ -70,20 +70,23 @@ class App extends React.Component {
 
 
   calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
-    const image = document.getElementById('inputimage');
-    const width = Number(image.width)
-    const height = Number(image.height)
-
-    return {
-      leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height,
-      rightCol: width - (clarifaiFace.right_col * width),
-      bottomRow: height - (clarifaiFace.bottom_row * height),
+    let boxes = []
+    for (let i = 0; i < data.outputs[0].data.regions.length; i++) {
+      const clarifaiFace = data.outputs[0].data.regions[i].region_info.bounding_box;
+      const image = document.getElementById('inputimage');
+      const width = Number(image.width)
+      const height = Number(image.height)
+      boxes.push({
+        leftCol: clarifaiFace.left_col * width,
+        topRow: clarifaiFace.top_row * height,
+        rightCol: width - (clarifaiFace.right_col * width),
+        bottomRow: height - (clarifaiFace.bottom_row * height),
+      })
     }
+    return boxes;
   }
-  displayFaceBox = (box) => {
-    this.setState({ box: box });
+  displayFaceBox = (boxes) => {
+    this.setState({ boxes: boxes });
 
   }
 
@@ -144,7 +147,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { route, isSignedIn, imageUrl, box, user, pending } = this.state;
+    const { route, isSignedIn, imageUrl, boxes, user, pending } = this.state;
     return (
       <div className="App">
         <Particles className='particles'
@@ -166,7 +169,7 @@ class App extends React.Component {
               onPictureSubmit={this.onPictureSubmit} />
             <Facerecognition
               imageUrl={imageUrl}
-              box={box} />
+              boxes={boxes} />
           </div>
           : (
             route === 'register' ?
