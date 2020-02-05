@@ -34,6 +34,7 @@ const initialState = {
   box: {},
   route: 'signin',
   isSignedIn: false,
+  pending: false,
   user: {
     id: '',
     first_name: '',
@@ -84,6 +85,10 @@ class App extends React.Component {
   displayFaceBox = (box) => {
     this.setState({ box: box });
 
+  }
+
+  onPending = (data) => {
+    this.setState({ pending: data })
   }
 
   onInputChange = (event) => {
@@ -139,7 +144,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { route, isSignedIn, imageUrl, box } = this.state;
+    const { route, isSignedIn, imageUrl, box, user, pending } = this.state;
     return (
       <div className="App">
         <Particles className='particles'
@@ -148,14 +153,14 @@ class App extends React.Component {
         <Navigation
           onRouteChange={this.onRouteChange}
           isSignedIn={isSignedIn} />
-      
+
 
         {route === 'home' ?
           <div>
 
             <Rank
-              first_name={this.state.user.first_name}
-              entries={this.state.user.entries} />
+              first_name={user.first_name}
+              entries={user.entries} />
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onPictureSubmit={this.onPictureSubmit} />
@@ -166,10 +171,14 @@ class App extends React.Component {
           : (
             route === 'register' ?
               <Register
+                pending={pending}
+                onPending={this.onPending}
                 loadUser={this.loadUser}
                 onRouteChange={this.onRouteChange} />
               :
               <Signin
+                pending={pending}
+                onPending={this.onPending}
                 loadUser={this.loadUser}
                 onRouteChange={this.onRouteChange} />
           )

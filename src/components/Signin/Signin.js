@@ -8,7 +8,6 @@ class Signin extends React.Component {
         this.state = {
             signedInEmail: '',
             signedInPassword: '',
-            pending: false
         }
     }
 
@@ -29,9 +28,7 @@ class Signin extends React.Component {
     }
 
     onSubmitSignIn = () => {
-        this.setState({
-            pending: true
-        })
+        this.props.onPending(true);
         fetch('https://thawing-fjord-68352.herokuapp.com/signin', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
@@ -43,16 +40,12 @@ class Signin extends React.Component {
             .then(response => response.json())
             .then(responsedata => {
                 if (responsedata.id) {
-                    this.setState({
-                        pending: false
-                    })
+                    this.props.onPending(false);
                     this.props.loadUser(responsedata);
                     this.props.onRouteChange('home');
                 }
                 else {
-                    this.setState({
-                        pending: false
-                    })
+                    this.props.onPending(false);
                     alert(responsedata);
                 }
             })
@@ -87,8 +80,8 @@ class Signin extends React.Component {
                             <button
                                 onClick={this.onSubmitSignIn}
                                 className="ph3 pv2 input-reset ba b--black bg-transparent grow pointer f5" type="submit">
-                                {this.state.pending && <div class="loader"></div>}
-                                {!this.state.pending && <span>Sign in</span>}
+                                {this.props.pending && <div class="loader"></div>}
+                                {!this.props.pending && <span>Sign in</span>}
                             </button>
                         </div>
                         <div className="lh-copy mt3">
