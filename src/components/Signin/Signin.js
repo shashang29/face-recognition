@@ -50,6 +50,9 @@ class Signin extends React.Component {
                     this.props.onRouteChange('home');
                 }
                 else {
+                    this.setState({
+                        pending: false
+                    })
                     alert(responsedata);
                 }
             })
@@ -81,9 +84,21 @@ class Signin extends React.Component {
 
                         </fieldset>
                         <div className="mv3">
-                            <input
+                            <button
                                 onClick={this.onSubmitSignIn}
-                                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Sign in" />
+                                className="ph3 pv2 input-reset ba b--black bg-transparent grow pointer f5" type="submit">
+                                {this.state.pending && <span><div class="wrapper">
+                                    <div className="box-wrap">
+                                        <div className="box one"></div>
+                                        <div className="box two"></div>
+                                        <div className="box three"></div>
+                                        <div className="box four"></div>
+                                        <div className="box five"></div>
+                                        <div className="box six"></div>
+                                    </div>
+                                </div></span>}
+                                {!this.state.pending && <span>Sign in</span>}
+                            </button>
                         </div>
                         <div className="lh-copy mt3">
                             <p
