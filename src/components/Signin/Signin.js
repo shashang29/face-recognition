@@ -33,7 +33,8 @@ class Signin extends React.Component {
     onSubmitSignIn = () => {
         const { onPending, loadUser, onRouteChange } = this.props;
         
-        if (!this.emailIsValid(this.state.signedInEmail)) { 
+        if (!this.emailIsValid(this.state.signedInEmail) || this.state.signedInPassword === '') { 
+            document.input.focus()
         alert('Invalid email or password')
         } 
         else {
