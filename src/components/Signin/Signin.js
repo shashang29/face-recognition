@@ -26,30 +26,40 @@ class Signin extends React.Component {
             this.onSubmitSignIn();
         }
     }
+    emailIsValid (email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+      }
 
     onSubmitSignIn = () => {
         const { onPending, loadUser, onRouteChange } = this.props;
-        onPending(true);
-        fetch('https://thawing-fjord-68352.herokuapp.com/signin', {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: this.state.signedInEmail,
-                password: this.state.signedInPassword
+        
+        if (!this.emailIsValid(this.state.signedInEmail)) { 
+        alert('Invalid email or password')
+        } 
+        else {
+            onPending(true);
+            fetch('https://thawing-fjord-68352.herokuapp.com/signin', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: this.state.signedInEmail,
+                    password: this.state.signedInPassword
+                })
             })
-        })
-            .then(response => response.json())
-            .then(responsedata => {
-                onPending(false);
-                if (responsedata.id) {
-                    
-                    loadUser(responsedata);
-                    onRouteChange('home');
-                }
-                else {
-                    alert(responsedata);
-                }
-            })
+                .then(response => response.json())
+                .then(responsedata => {
+                    onPending(false);
+                    if (responsedata.id) {
+
+                        loadUser(responsedata);
+                        onRouteChange('home');
+                    }
+                    else {
+                        alert(responsedata);
+                    }
+
+                })
+        }
     }
 
 
