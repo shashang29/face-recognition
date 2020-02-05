@@ -40,6 +40,8 @@ class Register extends React.Component {
     }
 
     onSubmitRegister = () => {
+        const {onPending, onRouteChange, loadUser} = this.props;
+        onPending(true);
         fetch('https://thawing-fjord-68352.herokuapp.com/register', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
@@ -54,8 +56,8 @@ class Register extends React.Component {
             .then(response => response.json())
             .then(responsedata => {
                 if (responsedata.id) {
-                    this.props.loadUser(responsedata);
-                    this.props.onRouteChange('home')
+                    loadUser(responsedata);
+                    onRouteChange('home')
                 }
                 else {
                     alert(responsedata);
