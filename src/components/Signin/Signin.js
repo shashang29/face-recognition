@@ -28,7 +28,8 @@ class Signin extends React.Component {
     }
 
     onSubmitSignIn = () => {
-        this.props.onPending(true);
+        const { onPending, loadUser, onRouteChange } = this.props;
+        onPending(true);
         fetch('https://thawing-fjord-68352.herokuapp.com/signin', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
@@ -40,12 +41,12 @@ class Signin extends React.Component {
             .then(response => response.json())
             .then(responsedata => {
                 if (responsedata.id) {
-                    this.props.onPending(false);
-                    this.props.loadUser(responsedata);
-                    this.props.onRouteChange('home');
+                    onPending(false);
+                    loadUser(responsedata);
+                    onRouteChange('home');
                 }
                 else {
-                    this.props.onPending(false);
+                    onPending(false);
                     alert(responsedata);
                 }
             })
@@ -54,7 +55,7 @@ class Signin extends React.Component {
 
     render() {
 
-        const { onRouteChange } = this.props;
+        const { onRouteChange, pending } = this.props;
         return (
             <article
                 onKeyPress={this.handleKeyPress}
@@ -80,8 +81,8 @@ class Signin extends React.Component {
                             <button
                                 onClick={this.onSubmitSignIn}
                                 className="ph3 pv2 input-reset ba b--black bg-transparent grow pointer f5" type="submit">
-                                {this.props.pending && <div class="loader"></div>}
-                                {!this.props.pending && <span>Sign in</span>}
+                                {pending && <div class="loader"></div>}
+                                {!pending && <span>Sign in</span>}
                             </button>
                         </div>
                         <div className="lh-copy mt3">
