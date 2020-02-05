@@ -40,7 +40,7 @@ class Register extends React.Component {
     }
 
     onSubmitRegister = () => {
-        const {onPending, onRouteChange, loadUser} = this.props;
+        const { onPending, onRouteChange, loadUser } = this.props;
         onPending(true);
         fetch('https://thawing-fjord-68352.herokuapp.com/register', {
             method: 'post',
@@ -55,13 +55,12 @@ class Register extends React.Component {
         })
             .then(response => response.json())
             .then(responsedata => {
+                onPending(false);
                 if (responsedata.id) {
-                    onPending(false);
                     loadUser(responsedata);
                     onRouteChange('home');
                 }
                 else {
-                    onPending(false);
                     alert(responsedata);
                 }
 
@@ -105,9 +104,14 @@ class Register extends React.Component {
 
                         </fieldset>
                         <div className="">
-                            <input
+                            <button
                                 onClick={this.onSubmitRegister}
-                                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Register" />
+                                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" >
+
+                                {this.props.pending && <div class="loader"></div>}
+                                {!this.props.pending && <span>Sign in</span>}
+
+                            </button>
                         </div>
 
                     </div>
