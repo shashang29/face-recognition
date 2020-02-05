@@ -7,7 +7,8 @@ class Signin extends React.Component {
         super(props);
         this.state = {
             signedInEmail: '',
-            signedInPassword: ''
+            signedInPassword: '',
+            pending: false
         }
     }
 
@@ -28,6 +29,9 @@ class Signin extends React.Component {
     }
 
     onSubmitSignIn = () => {
+        this.setState({
+            pending: true
+        })
         fetch('https://thawing-fjord-68352.herokuapp.com/signin', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
@@ -39,6 +43,9 @@ class Signin extends React.Component {
             .then(response => response.json())
             .then(responsedata => {
                 if (responsedata.id) {
+                    this.setState({
+                        pending: false
+                    })
                     this.props.loadUser(responsedata);
                     this.props.onRouteChange('home');
                 }
@@ -68,7 +75,8 @@ class Signin extends React.Component {
                             <div className="mv3">
                                 <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
                                 <input
-                                    onChange={this.onPasswordChange} className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="password" id="password" />
+                                    onChange={this.onPasswordChange} className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password"
+                                    name="password" id="password" />
                             </div>
 
                         </fieldset>
