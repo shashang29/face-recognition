@@ -87,16 +87,7 @@ class Signin extends React.Component {
                             <button
                                 onClick={this.onSubmitSignIn}
                                 className="ph3 pv2 input-reset ba b--black bg-transparent grow pointer f5" type="submit">
-                                {this.state.pending && <span><div class="wrapper">
-                                    <div className="box-wrap">
-                                        <div className="box one"></div>
-                                        <div className="box two"></div>
-                                        <div className="box three"></div>
-                                        <div className="box four"></div>
-                                        <div className="box five"></div>
-                                        <div className="box six"></div>
-                                    </div>
-                                </div></span>}
+                                {this.state.pending && <div class="loader"></div>}
                                 {!this.state.pending && <span>Sign in</span>}
                             </button>
                         </div>
