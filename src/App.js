@@ -9,8 +9,6 @@ import Particles from 'react-particles-js';
 import './App.css';
 
 
-
-
 const particlesOptions = {
 
   particles: {
@@ -98,7 +96,7 @@ class App extends React.Component {
     this.setState({ input: event.target.value })
   }
   onPictureSubmit = () => {
-    this.setState({ imageUrl: this.state.input });
+    this.setState({ imageUrl: this.state.input, boxes: [] });
     fetch('https://thawing-fjord-68352.herokuapp.com/imageurl', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -106,7 +104,11 @@ class App extends React.Component {
         input: this.state.input
       })
     })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw Error
+        else return response.json()
+      }
+      )
       .then(response => {
         if (response) {
           fetch('https://thawing-fjord-68352.herokuapp.com/image', {
