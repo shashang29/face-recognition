@@ -1,5 +1,6 @@
 import React from 'react';
 import Logo from '../Logo/Logo';
+import ProfileIcon from '../Profile/Profileicon'
 
 const Navigation = ({ onRouteChange, isSignedIn }) => {
 
@@ -8,9 +9,7 @@ const Navigation = ({ onRouteChange, isSignedIn }) => {
             <nav style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Logo />
                 <div>
-                <p
-                    onClick={() => onRouteChange('signout')}
-                    className='f4 link dim black ma3 pa2 pointer shadow-5'>Sign Out</p>
+                <ProfileIcon onRouteChange={onRouteChange}/>
                     </div>
             </nav>
         )
