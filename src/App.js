@@ -1,10 +1,14 @@
 import React from 'react';
+
 import Navigation from './components/Navigation/Navigation';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 import Facerecognition from './components/Facerecognition/Facerecognition';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
+import Modal from './components/Modal/Modal';
+import Profile from './components/Profile/Profile';
+
 import Particles from 'react-particles-js';
 import './App.css';
 
@@ -32,6 +36,7 @@ const initialState = {
   boxes: [],
   route: 'home',
   isSignedIn: true,
+  isProfileOpen: false,
   pending: false,
   user: {
     id: '',
@@ -148,8 +153,15 @@ class App extends React.Component {
     this.setState({ route: route })
   }
 
+  toggleModal = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      isProfileOpen: !prevState.isProfileOpen
+    }))
+  }
+
   render() {
-    const { route, isSignedIn, imageUrl, boxes, user, pending } = this.state;
+    const { route, isSignedIn, imageUrl, boxes, user, pending, isProfileOpen } = this.state;
     return (
       <div className="App">
         <Particles className='particles'
@@ -157,12 +169,14 @@ class App extends React.Component {
         />
         <Navigation
           onRouteChange={this.onRouteChange}
-          isSignedIn={isSignedIn} />
-
+          isSignedIn={isSignedIn} toggleModal={this.toggleModal}/>
+        {isProfileOpen &&
+          <Modal>
+            <Profile isProfileOpen={isProfileOpen} toggleModal={this.toggleModal} />
+          </Modal>}
 
         {route === 'home' ?
           <div>
-
             <Rank
               first_name={user.first_name}
               entries={user.entries} />
