@@ -45,17 +45,51 @@ const initialState = {
     email: '',
     entries: 0,
     joined: '',
-    age:''
+    age: ''
 
   }
 }
 
 class App extends React.Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = initialState;
 
+  }
+
+  componentDidMount() {
+    const token = window.sessionStorage.getItem('token');
+    if (token) {
+      fetch('http://localhost:3005/signin', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+        .then(resp => resp.json())
+        .then(data => {
+          if (data && data.id) {
+            fetch(`http://localhost:3005/profile/${data.id}`,
+              {
+                method: 'get',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': token
+                }
+              })
+              .then(resp => resp.json())
+              .then(user => {
+                if (user && user.email) {
+                  this.loadUser(user);
+                  this.onRouteChange('home');
+                }
+              })
+          }
+        })
+        .catch(console.log)
+    }
   }
 
 
@@ -67,13 +101,15 @@ class App extends React.Component {
         last_name: data.last_name,
         email: data.email,
         entries: data.entries,
-        joined: data.joined
+        joined: data.joined,
+        age: data.age
       }
     })
   }
 
 
   calculateFaceLocation = (data) => {
+    if(data && data.outputs){
     let boxes = []
     for (let i = 0; i < data.outputs[0].data.regions.length; i++) {
       const clarifaiFace = data.outputs[0].data.regions[i].region_info.bounding_box;
@@ -89,9 +125,12 @@ class App extends React.Component {
     }
     return boxes;
   }
+  return;
+}
   displayFaceBox = (boxes) => {
+    if(boxes){
     this.setState({ boxes: boxes });
-
+    }
   }
 
   onPending = (data) => {
@@ -103,9 +142,10 @@ class App extends React.Component {
   }
   onPictureSubmit = () => {
     this.setState({ imageUrl: this.state.input, boxes: [] });
-    fetch('https://thawing-fjord-68352.herokuapp.com/imageurl', {
+    fetch('http://localhost:3005/imageurl', {
       method: 'post',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json',
+      'Authorization': window.sessionStorage.getItem('token') },
       body: JSON.stringify({
         input: this.state.input
       })
@@ -117,9 +157,10 @@ class App extends React.Component {
       )
       .then(response => {
         if (response) {
-          fetch('https://thawing-fjord-68352.herokuapp.com/image', {
+          fetch('http://localhost:3005/image', {
             method: 'put',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+            'Authorization': window.sessionStorage.getItem('token')  },
             body: JSON.stringify({
               id: this.state.user.id
             })
@@ -170,15 +211,15 @@ class App extends React.Component {
         />
         <Navigation
           onRouteChange={this.onRouteChange}
-          isSignedIn={isSignedIn} 
-          toggleModal={this.toggleModal}/>
+          isSignedIn={isSignedIn}
+          toggleModal={this.toggleModal} />
         {isProfileOpen &&
           <Modal>
-            <Profile 
-            isProfileOpen={isProfileOpen} 
-            user={user} 
-            toggleModal={this.toggleModal}
-            loadUser={this.loadUser} />
+            <Profile
+              isProfileOpen={isProfileOpen}
+              user={user}
+              toggleModal={this.toggleModal}
+              loadUser={this.loadUser} />
           </Modal>}
 
         {route === 'home' ?

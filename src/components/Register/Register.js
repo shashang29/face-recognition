@@ -38,40 +38,69 @@ class Register extends React.Component {
             this.onSubmitRegister();
         }
     }
-    emailIsValid (email) {
+    emailIsValid(email) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-      }
+    }
 
     onSubmitRegister = () => {
         const { onPending, onRouteChange, loadUser } = this.props;
-        if (!this.emailIsValid(this.state.email) ) { 
+        if (!this.emailIsValid(this.state.email)) {
             alert('Type a valid email id')
-            } 
-            else{
-        onPending(true);
-        fetch('https://thawing-fjord-68352.herokuapp.com/register', {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                first_name: this.state.first_name,
-                last_name: this.state.last_name,
-                email: this.state.email,
-                password: this.state.password
+        }
+        else {
+            onPending(true);
+            fetch('http://localhost:3005/register', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json', },
+                body: JSON.stringify({
+                    first_name: this.state.first_name,
+                    last_name: this.state.last_name,
+                    email: this.state.email,
+                    password: this.state.password
 
+                })
             })
-        })
-            .then(response => response.json())
-            .then(responsedata => {
-                onPending(false);
-                if (responsedata.id) {
-                    loadUser(responsedata);
-                    onRouteChange('home');
-                }
-                else {
-                    alert(responsedata);
-                }
+                .then(response => response.json())
+                .then(responsedata => {
+                    if (responsedata.id) {
+                        fetch('http://localhost:3005/signin', {
+                            method: 'post',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                email: this.state.email,
+                                password: this.state.password
+                            })
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                onPending(false);
+                                if (data.userId && data.success === 'true') {
+                                    window.sessionStorage.setItem('token', data.token);
+                                    fetch(`http://localhost:3005/profile/${data.userId}`,
+                                        {
+                                            method: 'get',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'Authorization': data.token
+                                            }
+                                        })
+                                        .then(resp => resp.json())
+                                        .then(user => {
+                                            if (user && user.email) {
+                                                loadUser(user);
+                                                onRouteChange('home');
+                                            }
+                                        })
+                                        .catch(console.log)
+                                }
 
-            })
+                            })
+                    }
+                    else {
+                        alert(responsedata);
+                    }
+
+                })
         }
     }
 

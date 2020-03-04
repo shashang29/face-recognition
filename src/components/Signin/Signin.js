@@ -26,19 +26,22 @@ class Signin extends React.Component {
             this.onSubmitSignIn();
         }
     }
-    emailIsValid (email) {
+    emailIsValid(email) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-      }
+    }
 
+    saveAuthTokenInSession = (token) => {
+        window.sessionStorage.setItem('token', token);
+    }
     onSubmitSignIn = () => {
         const { onPending, loadUser, onRouteChange } = this.props;
-        
-        if (!this.emailIsValid(this.state.signedInEmail) || this.state.signedInPassword === '') { 
-        alert('Invalid email or password')
-        } 
+
+        if (!this.emailIsValid(this.state.signedInEmail) || this.state.signedInPassword === '') {
+            alert('Invalid email or password')
+        }
         else {
             onPending(true);
-            fetch('https://thawing-fjord-68352.herokuapp.com/signin', {
+            fetch('http://localhost:3005/signin', {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -47,20 +50,33 @@ class Signin extends React.Component {
                 })
             })
                 .then(response => response.json())
-                .then(responsedata => {
+                .then(data => {
                     onPending(false);
-                    if (responsedata.id) {
-
-                        loadUser(responsedata);
-                        onRouteChange('home');
-                    }
-                    else {
-                        alert(responsedata);
+                    if (data.userId && data.success === 'true') {
+                        this.saveAuthTokenInSession(data.token);
+                        fetch(`http://localhost:3005/profile/${data.userId}`,
+                            {
+                                method: 'get',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': data.token
+                                }
+                            })
+                            .then(resp => resp.json())
+                            .then(user => {
+                                if (user && user.email) {
+                                    loadUser(user);
+                                    onRouteChange('home');
+                                }
+                            })
+                            .catch(console.log)
                     }
 
                 })
         }
     }
+
+
 
 
     render() {
