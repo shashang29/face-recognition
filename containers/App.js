@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Navigation from './components/Navigation/Navigation';
-import Signin from './components/Signin/Signin';
-import Register from './components/Register/Register';
-import Facerecognition from './components/Facerecognition/Facerecognition';
-import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
-import Rank from './components/Rank/Rank';
-import Modal from './components/Modal/Modal';
-import Profile from './components/Profile/Profile';
+import Navigation from '../components/Navigation/Navigation';
+import Signin from '../components/Signin/Signin';
+import Register from '../components/Register/Register';
+import Facerecognition from '../components/Facerecognition/Facerecognition';
+import ImageLinkForm from '../components/ImageLinkForm/ImageLinkForm';
+import Rank from '../components/Rank/Rank';
+import Modal from '../components/Modal/Modal';
+import Profile from '../components/Profile/Profile';
 
 import Particles from 'react-particles-js';
 import './App.css';
