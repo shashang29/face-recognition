@@ -15,7 +15,7 @@ import Profile from '../components/Profile/Profile';
 import Particles from 'react-particles-js';
 import './App.css';
 
-import { setImageInput } from '../actions';
+import { setImageInput } from '../actions/actions';
 
 const particlesOptions = {
   particles: {

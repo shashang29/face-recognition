@@ -1,4 +1,4 @@
-import { CHANGE_IMAGE_INPUT
+import { CHANGE_IMAGE_INPUT, PENDING
 } from '../constants/constants';
 
 
@@ -7,3 +7,7 @@ export const setImageInput = (ImageURL) => ({
     payload: ImageURL
 });
 
+export const setPending =(status)=>({
+    type: PENDING,
+    payload: status
+})

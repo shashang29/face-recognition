@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux';
-import {pictureSubmit} from '../reducers/reducers';
-import {} from '../reducers/user.reducers';
+import {pictureSubmit, isPending} from '../reducers/reducers';
+import login from './loginReducer';
+import register from './registerReducer';
 
-const rootreducer = combineReducers({
-    pictureSubmit
+const rootReducer = combineReducers({
+    pictureSubmit,
+    isPending,
+    login,
+    register
 
 });
 
-export default rootreducer;
+export default rootReducer;

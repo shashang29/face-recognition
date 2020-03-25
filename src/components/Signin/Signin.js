@@ -1,130 +1,105 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux';
+import { validateAll } from 'indicative/validator';
+import { setPending } from '../../actions/actions'
+import { loginUserAction } from '../../actions/user.actions';
 
+const Signin = props => {
 
-class Signin extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            signedInEmail: '',
-            signedInPassword: '',
-        }
-    }
-
-    onEmailChange = (event) => {
-        this.setState({
-            signedInEmail: event.target.value
+    const [userInputs, setUserInputs] = useState({
+        email: '',
+        password: ''
+    });
+    const [errors, setErrors] = useState({
+        email: '',
+        password: ''
+    });
+  
+    const handleInputChange = ({ target }) => {
+        setUserInputs({ ...userInputs, [target.name]: target.value });
+        setErrors({
+            ...errors,
+            [target.name]: ''
         })
-    }
-    onPasswordChange = (event) => {
-        this.setState({
-            signedInPassword: event.target.value
-        })
-    }
-    handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            this.onSubmitSignIn();
-        }
-    }
-    emailIsValid(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+
     }
 
-    saveAuthTokenInSession = (token) => {
-        window.sessionStorage.setItem('token', token);
-    }
-    onSubmitSignIn = () => {
-        const { onPending, loadUser, onRouteChange } = this.props;
-
-        if (!this.emailIsValid(this.state.signedInEmail) || this.state.signedInPassword === '') {
-            alert('Invalid email or password')
+    const onSubmitSignIn = (event) => {
+        event.preventDefault();
+        
+        const data = userInputs;
+        const rules = {
+            email: 'required|email',
+            password: 'required|string'
+        };
+        const messages = {
+            required: '{{field}} is required.',
+            'email.email': 'This email is invalid'
         }
-        else {
-            onPending(true);
-            fetch('http://localhost:3005/signin', {
-                method: 'post',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    email: this.state.signedInEmail,
-                    password: this.state.signedInPassword
-                })
+
+        validateAll(data, rules, messages)
+            .then(() => {
+                props.dispatch(loginUserAction(userInputs.email, userInputs.password));
+                props.dispatch(setPending(true))
             })
-                .then(response => response.json())
-                .then(data => {
-                    onPending(false);
-                    if (data.userId && data.success === 'true') {
-                        this.saveAuthTokenInSession(data.token);
-                        fetch(`http://localhost:3005/profile/${data.userId}`,
-                            {
-                                method: 'get',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'Authorization': data.token
-                                }
-                            })
-                            .then(resp => resp.json())
-                            .then(user => {
-                                if (user && user.email) {
-                                    loadUser(user);
-                                    onRouteChange('home');
-                                }
-                            })
-                            .catch(console.log)
-                    }
+            .catch(err => {
+                const formattedErrors = {}
+                err.forEach(error =>
+                    formattedErrors[error.field] = error.message)
+                setErrors({ ...formattedErrors })
 
-                })
-        }
+            })
     }
 
 
-
-
-    render() {
-
-        const { onRouteChange, pending } = this.props;
-        return (
-            <article
-                onKeyPress={this.handleKeyPress}
-                className="br3 ba b--black-10 mv4 w-100 w-50-m w-30-l mw6 shadow-3 center">
-                <main className="pa4 black-80">
-                    <div className="measure">
-                        <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-                            <legend className="f1 fw6 ph0 mh0">Sign In</legend>
-                            <div className="mt3">
-                                <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
-                                <input
-                                    onChange={this.onEmailChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address" id="email-address" />
+    return (
+        <form onSubmit={onSubmitSignIn}
+            className="br3 ba b--black-10 mv4 w-100 w-50-m w-30-l mw6 shadow-3 center">
+            <main className="pa4 black-80">
+                <div className="measure">
+                    <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
+                        <legend className="f1 fw6 ph0 mh0">Sign In</legend>
+                        <span className='red b '>{props.login.error}</span>
+                        <div className="mt3">
+                            <div>
+                                <label className="db fw6 lh-copy f4 mb0 pa0" htmlFor="email-address">Email</label>
+                                <span className='red f6'>{errors.email}</span>
                             </div>
-                            <div className="mv3">
-                                <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
-                                <input
-                                    onChange={this.onPasswordChange} className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password"
-                                    name="password" id="password" />
-                            </div>
-
-                        </fieldset>
+                            <input
+                                onChange={handleInputChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email" id="email-address" />
+                        </div>
                         <div className="mv3">
-                            <button
-                                onClick={this.onSubmitSignIn}
-                                className="ph3 pv2 input-reset ba b--black bg-transparent grow pointer f5" type="submit">
-                                {pending && <div className="loader"></div>}
-                                {!pending && <span>Sign in</span>}
-                            </button>
+                            <div>
+                                <label className="db fw6 lh-copy f4 mb0 pa0" htmlFor="password">Password</label>
+                                <span className='red f6 '>{errors.password}</span>
+                            </div>
+                            <input
+                                onChange={handleInputChange} className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password"
+                                name="password" id="password" />
                         </div>
-                        <div className="lh-copy mt3">
-                            <p
-                                onClick={() => onRouteChange('register')}
-                                className="f5 link dim black db pointer" >Register</p>
 
-                        </div>
+                    </fieldset>
+                    <div className="mv3">
+                        <button
+                            onClick={onSubmitSignIn}
+                            className="ph3 pv2 input-reset ba b--black bg-transparent grow pointer f5" type="submit">
+                            {props.isPending.pending ? <div className="loader"></div> :
+                                <span>Sign in</span>}
+                        </button>
                     </div>
-                </main>
-            </article>
-        )
-    }
+                    <div className="lh-copy mt3">
+                        <p
+                            onClick={() => props.onRouteChange('register')}
+                            className="f5 link dim black db pointer" >Register</p>
 
+                    </div>
+                </div>
+            </main>
+        </form>
+    )
 
 }
 
+const mapStateToProps = state => ({ ...state });
 
-export default Signin;
+export default connect(mapStateToProps)(Signin);
