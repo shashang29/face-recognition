@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 //components
+import { ProtectedRoute } from './ProtectedRoute';
 import Navigation from '../components/Navigation/Navigation';
 import Signin from '../components/Signin/Signin';
 import Register from '../components/Register/Register';
@@ -12,7 +13,7 @@ import Rank from '../components/Rank/Rank';
 import Modal from '../components/Modal/Modal';
 import Profile from '../components/Profile/Profile';
 
-import {loginUserAction} from '../actions/user.actions' 
+import { loginUserAction } from '../actions/user.actions'
 
 import Particles from 'react-particles-js';
 import './App.css';
@@ -35,8 +36,6 @@ const particlesOptions = {
 
 const initialState = {
   boxes: [],
-  route: 'home',
-  isSignedIn: true,
   isProfileOpen: false
 }
 
@@ -79,25 +78,6 @@ class App extends React.Component {
     }
   }
 
-  onPending = (data) => {
-    this.setState({ pending: data })
-  }
-
-  onInputChange = (event) => {
-    this.setState({ input: event.target.value })
-  }
-
-
-  onRouteChange = (route) => {
-    if (route === 'signout') {
-      return this.setState(initialState)
-    }
-    else if (route === 'home') {
-      this.setState({ isSignedIn: true })
-    }
-    this.setState({ route: route })
-  }
-
   toggleModal = () => {
     this.setState(prevState => ({
       ...prevState,
@@ -106,9 +86,10 @@ class App extends React.Component {
   }
 
   render() {
-    const { isSignedIn, imageUrl, boxes, user, pending, isProfileOpen } = this.state;
+    const { boxes, isProfileOpen } = this.state;
     return (
       <Router>
+
         <div className="App">
           <Particles className='particles'
             params={particlesOptions}
@@ -123,43 +104,26 @@ class App extends React.Component {
                 toggleModal={this.toggleModal}
                 loadUser={this.loadUser} />
             </Modal>} */}
-
           <Switch>
-            <Route
+            <ProtectedRoute
               path='/profile'
-              render={(props) => (
-                <div>
-                  <Rank  />
+              render={props =>
+                <Fragment>
+                  <Rank />
                   <ImageLinkForm />
-                  <Facerecognition {...props}
-                    boxes={boxes} />
-                </div>
-              )}
-            />
-
-            <Route
-              exact path="/"
-              render={(props) =>
-                <Signin {...props}
-                  pending={pending}
-                  onPending={this.onPending}
-                  loadUser={this.loadUser}
-                  onRouteChange={this.onRouteChange} />}
-            />
-
-            <Route
-              path="/register"
-              render={(props) =>
-                <Register {...props}
-                  pending={pending}
-                  onPending={this.onPending}
-                  loadUser={this.loadUser}
-                  onRouteChange={this.onRouteChange} />
+                  <Facerecognition />
+                </Fragment>
               }
             />
-          )}
+            <Route exact path="/"
+              component={Signin} />
+            <Route
+              path="/register"
+              component={Register} />
+            <Route path="*" component={() => "404 NOT FOUND"} />
           </Switch>
         </div>
+
       </Router>
     );
   }
