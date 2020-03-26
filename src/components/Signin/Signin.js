@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 import { validateAll } from 'indicative/validator';
 import { setPending } from '../../actions/actions'
 import { loginUserAction } from '../../actions/user.actions';
@@ -14,7 +15,7 @@ const Signin = props => {
         email: '',
         password: ''
     });
-  
+
     const handleInputChange = ({ target }) => {
         setUserInputs({ ...userInputs, [target.name]: target.value });
         setErrors({
@@ -26,7 +27,7 @@ const Signin = props => {
 
     const onSubmitSignIn = (event) => {
         event.preventDefault();
-        
+
         const data = userInputs;
         const rules = {
             email: 'required|email',
@@ -88,9 +89,11 @@ const Signin = props => {
                         </button>
                     </div>
                     <div className="lh-copy mt3">
-                        <p
-                            onClick={() => props.onRouteChange('register')}
-                            className="f5 link dim black db pointer" >Register</p>
+                        <Link to='/register'>
+                            <p
+                                onClick={() => props.onRouteChange('register')}
+                                className="f5 link dim black db pointer" >Register</p>
+                        </Link>
 
                     </div>
                 </div>

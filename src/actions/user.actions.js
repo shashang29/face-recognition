@@ -1,4 +1,4 @@
-import { userConstants } from '../constants/user.constants';
+import { userConstants } from '../constants/userAuth.constants';
 
 
 export const loginUserAction = (email,password) => {
@@ -6,6 +6,13 @@ export const loginUserAction = (email,password) => {
         type: userConstants.SIGNIN_REQUEST,
         email,
         password
+    }
+};
+
+export const getUserData =(userID)=>{
+    return{
+        type: userConstants.GET_USER_DATA,
+        userID
     }
 };
 

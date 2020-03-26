@@ -1,4 +1,4 @@
-import { userConstants } from '../constants/user.constants';
+import { userConstants } from '../constants/userAuth.constants';
 
 const initialRegisterState = {
     registered: false,
@@ -11,7 +11,6 @@ const {
 
 
 export default function (state = initialRegisterState, action = {}) {
-    console.log(action.response)
     switch (action.type) {
         case REGISTER_SUCCESS:
             return { ...state, registered: true };

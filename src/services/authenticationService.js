@@ -1,35 +1,51 @@
-export const loginUserService = (userData) => {
-    return fetch('http://localhost:3005/signin', {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            email: userData.email,
-            password: userData.password
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.userId && data.success === 'true') {
-                window.sessionStorage.setItem('token', data.token);
-            }
+export const loginAuthentication = (userData) => {
+    // const token = window.sessionStorage.getItem
+    // if (token) {
+    //     return fetch('http://localhost:3005/signin', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': token
+    //         }
+    //     })
+    //         .then(response => response.json())
+    //         .catch(err => err)
+    // } else {
 
-            return fetch(`http://localhost:3005/profile/${data.userId}`,
-                {
-                    method: 'get',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': data.token
-                    }
-                })
+        return fetch('http://localhost:3005/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: userData.email,
+                password: userData.password
+            })
                 .then(response => response.json())
                 .catch(err => err)
-
         })
-};
+    }
+// }
 
 
-export const registerUserService = ({userData}) => {
-    console.log(userData)
+export const getUserData = (userId) => {
+    console.log(userId)
+    const token = window.sessionStorage.getItem('token');
+
+    return fetch(`http://localhost:3005/profile/${userId}`,
+        {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        })
+        .then(response => response.json())
+        .catch(err => err)
+}
+
+
+export const registerUserService = ({ userData }) => {
     return fetch('http://localhost:3005/register', {
         method: 'post',
         headers: { 'Content-Type': 'application/json', },

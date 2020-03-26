@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 //components
 import Navigation from '../components/Navigation/Navigation';
@@ -11,11 +12,11 @@ import Rank from '../components/Rank/Rank';
 import Modal from '../components/Modal/Modal';
 import Profile from '../components/Profile/Profile';
 
+import {loginUserAction} from '../actions/user.actions' 
 
 import Particles from 'react-particles-js';
 import './App.css';
 
-import { setImageInput } from '../actions/actions';
 
 const particlesOptions = {
   particles: {
@@ -32,34 +33,11 @@ const particlesOptions = {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    input: state.pictureSubmit.input
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onPictureSubmit: (event) => dispatch(setImageInput(event.target.value))
-  }
-}
-
 const initialState = {
-  imageUrl: '',
   boxes: [],
-  route: 'signin',
-  isSignedIn: false,
-  isProfileOpen: false,
-  pending: false,
-  user: {
-    id: '',
-    first_name: '',
-    last_name: '',
-    email: '',
-    entries: 0,
-    joined: '',
-    age: ''
-  }
+  route: 'home',
+  isSignedIn: true,
+  isProfileOpen: false
 }
 
 class App extends React.Component {
@@ -71,50 +49,8 @@ class App extends React.Component {
   componentDidMount() {
     const token = window.sessionStorage.getItem('token');
     if (token) {
-      fetch('http://localhost:3005/signin', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        }
-      })
-        .then(resp => resp.json())
-        .then(data => {
-          if (data && data.id) {
-            fetch(`http://localhost:3005/profile/${data.id}`,
-              {
-                method: 'get',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': token
-                }
-              })
-              .then(resp => resp.json())
-              .then(user => {
-                if (user && user.email) {
-                  this.loadUser(user);
-                  this.onRouteChange('home');
-                }
-              })
-          }
-        })
-        .catch(console.log)
+   this.props.dispatch(loginUserAction(token))
     }
-  }
-
-
-  loadUser = data => {
-    this.setState({
-      user: {
-        id: data.id,
-        first_name: data.first_name,
-        last_name: data.last_name,
-        email: data.email,
-        entries: data.entries,
-        joined: data.joined,
-        age: data.age
-      }
-    })
   }
 
 
@@ -150,53 +86,7 @@ class App extends React.Component {
   onInputChange = (event) => {
     this.setState({ input: event.target.value })
   }
-  onPictureSubmit = () => {
-    this.setState({ imageUrl: this.state.input, boxes: [] });
-    fetch('http://localhost:3005/imageurl', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': window.sessionStorage.getItem('token')
-      },
-      body: JSON.stringify({
-        input: this.state.input
-      })
-    })
-      .then(response => {
-        if (!response.ok) throw Error
-        else return response.json()
-      }
-      )
-      .then(response => {
-        if (response) {
-          fetch('http://localhost:3005/image', {
-            method: 'put',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': window.sessionStorage.getItem('token')
-            },
-            body: JSON.stringify({
-              id: this.state.user.id
-            })
 
-          })
-            .then(response => response.json())
-            .catch(console.log)
-            .then(count => {
-              this.setState({
-                user: {
-                  ...this.state.user,
-                  entries: count
-                }
-
-              })
-            })
-            .catch(console.log)
-        }
-        this.displayFaceBox(this.calculateFaceLocation(response))
-      })
-      .catch(console.log)
-  }
 
   onRouteChange = (route) => {
     if (route === 'signout') {
@@ -216,55 +106,66 @@ class App extends React.Component {
   }
 
   render() {
-    const { route, isSignedIn, imageUrl, boxes, user, pending, isProfileOpen } = this.state;
+    const { isSignedIn, imageUrl, boxes, user, pending, isProfileOpen } = this.state;
     return (
-      <div className="App">
-        <Particles className='particles'
-          params={particlesOptions}
-        />
-        <Navigation
-          onRouteChange={this.onRouteChange}
-          isSignedIn={isSignedIn}
-          toggleModal={this.toggleModal} />
-        {isProfileOpen &&
-          <Modal>
-            <Profile
-              isProfileOpen={isProfileOpen}
-              user={user}
-              toggleModal={this.toggleModal}
-              loadUser={this.loadUser} />
-          </Modal>}
+      <Router>
+        <div className="App">
+          <Particles className='particles'
+            params={particlesOptions}
+          />
+          <Navigation
+            toggleModal={this.toggleModal} />
+          {/* {isProfileOpen &&
+            <Modal>
+              <Profile
+                isProfileOpen={isProfileOpen}
+                user={user}
+                toggleModal={this.toggleModal}
+                loadUser={this.loadUser} />
+            </Modal>} */}
 
-        {route === 'home' ?
-          <div>
-            <Rank
-              first_name={user.first_name}
-              entries={user.entries} />
-            <ImageLinkForm
-              onInputChange={this.onInputChange}
-              onPictureSubmit={this.onPictureSubmit} />
-            <Facerecognition
-              imageUrl={imageUrl}
-              boxes={boxes} />
-          </div>
-          : (
-            route === 'register' ?
-              <Register
-                pending={pending}
-                onPending={this.onPending}
-                loadUser={this.loadUser}
-                onRouteChange={this.onRouteChange} />
-              :
-              <Signin
-                pending={pending}
-                onPending={this.onPending}
-                loadUser={this.loadUser}
-                onRouteChange={this.onRouteChange} />
-          )
-        }
-      </div>
+          <Switch>
+            <Route
+              path='/users'
+              render={(props) => (
+                <div>
+                  <Rank {...props}
+                    first_name={user.first_name}
+                    entries={user.entries} />
+                  <ImageLinkForm {...props}
+                    onPictureSubmit={this.onPictureSubmit} />
+                  <Facerecognition {...props}
+                    boxes={boxes} />
+                </div>
+              )}
+            />
+
+            <Route
+              exact path="/"
+              render={(props) =>
+                <Signin {...props}
+                  pending={pending}
+                  onPending={this.onPending}
+                  loadUser={this.loadUser}
+                  onRouteChange={this.onRouteChange} />}
+            />
+
+            <Route
+              path="/register"
+              render={(props) =>
+                <Register {...props}
+                  pending={pending}
+                  onPending={this.onPending}
+                  loadUser={this.loadUser}
+                  onRouteChange={this.onRouteChange} />
+              }
+            />
+          )}
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect()(App);

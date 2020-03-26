@@ -1,4 +1,4 @@
-import { userConstants } from '../constants/user.constants';
+import { userConstants } from '../constants/userAuth.constants';
 
 const initialUserState = {
     user: {
@@ -10,7 +10,8 @@ const initialUserState = {
         joined: '',
         age: ''
     },
-    error: ''
+    error: '',
+    isSignedIn: false
 }
 
 const {
@@ -21,7 +22,7 @@ const {
 export default function (state = initialUserState, action = {}) {
     switch (action.type) {
         case SIGNIN_SUCCESS:
-            return { ...state, user: { ...action.response }};
+            return { ...state, isSignedIn: true, user: { ...action.response } };
         case SIGNIN_FAILED:
             return { ...state, error: action.response }
         default:

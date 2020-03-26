@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import {pictureSubmit, isPending} from '../reducers/reducers';
+import {imageInput, isPending} from '../reducers/reducers';
 import login from './loginReducer';
 import register from './registerReducer';
 
 const rootReducer = combineReducers({
-    pictureSubmit,
+    imageInput,
     isPending,
     login,
     register
