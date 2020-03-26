@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import {connect} from 'react-redux';
 
 const Rank = ({ first_name, entries }) => {
 
@@ -29,6 +30,9 @@ const Rank = ({ first_name, entries }) => {
         </div>
     )
 }
+const mapStateToProps=({login})=>({
+first_name: login.user.first_name,
+entries: login.user.entries
+})
 
-
-export default Rank;
+export default connect(mapStateToProps)(Rank);

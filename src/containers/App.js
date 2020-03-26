@@ -46,12 +46,12 @@ class App extends React.Component {
     this.state = initialState;
   }
 
-  componentDidMount() {
-    const token = window.sessionStorage.getItem('token');
-    if (token) {
-   this.props.dispatch(loginUserAction(token))
-    }
-  }
+  // componentDidMount() {
+  //   const token = window.sessionStorage.getItem('token');
+  //   if (token) {
+  //  this.props.dispatch(loginUserAction(token))
+  //   }
+  // }
 
 
   calculateFaceLocation = (data) => {
@@ -126,14 +126,11 @@ class App extends React.Component {
 
           <Switch>
             <Route
-              path='/users'
+              path='/profile'
               render={(props) => (
                 <div>
-                  <Rank {...props}
-                    first_name={user.first_name}
-                    entries={user.entries} />
-                  <ImageLinkForm {...props}
-                    onPictureSubmit={this.onPictureSubmit} />
+                  <Rank  />
+                  <ImageLinkForm />
                   <Facerecognition {...props}
                     boxes={boxes} />
                 </div>
