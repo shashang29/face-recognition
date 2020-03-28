@@ -116,8 +116,6 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps=(state)=>({
-  ...state
-})
 
-export default connect(mapStateToProps)(App);
+
+export default App;

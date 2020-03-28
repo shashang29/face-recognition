@@ -21,8 +21,8 @@ const {
 
 export default function (state = initialUserState, action = {}) {
     switch (action.type) {
-        case SIGNIN_SUCCESS:
-            return { ...state, isSignedIn: true,error:'', user: { ...action.response } };
+        case SIGNIN_SUCCESS:{
+            return { ...state, isSignedIn: true,error:'', user: { ...action.response } }};
         case SIGNIN_FAILED:
             return { ...state, error: action.response }
         default:
