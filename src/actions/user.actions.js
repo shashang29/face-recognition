@@ -1,11 +1,12 @@
 import { userConstants } from '../constants/userAuth.constants';
 
 
-export const loginUserAction = (email,password) => {
+export const loginUserAction = (email,password, history) => {
     return {
         type: userConstants.SIGNIN_REQUEST,
         email,
-        password
+        password,
+        history
     }
 };
 

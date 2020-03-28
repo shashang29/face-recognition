@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import {connect} from 'react-redux';
 
 const Rank = ({ first_name, entries }) => {
-
+    console.log('first name:' +first_name)
     const [emoji, setEmoji] = useState('');
 
     useEffect(() => {
+        
         generateEmoji(entries)
     }, [entries]);
 

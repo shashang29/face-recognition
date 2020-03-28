@@ -27,7 +27,7 @@ const Signin = props => {
 
     const onSubmitSignIn = (event) => {
         event.preventDefault();
-
+       const {history}= props;
         const data = userInputs;
         const rules = {
             email: 'required|email',
@@ -40,7 +40,7 @@ const Signin = props => {
 
         validateAll(data, rules, messages)
             .then(() => {
-                props.dispatch(loginUserAction(userInputs.email, userInputs.password));
+                props.dispatch(loginUserAction(userInputs.email, userInputs.password, history));
                 props.dispatch(setPending(true))
             })
             .catch(err => {
@@ -90,9 +90,7 @@ const Signin = props => {
                     </div>
                     <div className="lh-copy mt3">
                         <Link to='/register'>
-                            <p
-                                onClick={() => props.onRouteChange('register')}
-                                className="f5 link dim black db pointer" >Register</p>
+                            <p className="f5 link dim black db pointer" >Register</p>
                         </Link>
 
                     </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
+import {Link} from 'react-router-dom'
 import { setPending } from '../../actions/actions'
 import { registerUserAction } from '../../actions/user.actions';
 import { validateAll } from 'indicative/validator';
@@ -70,7 +71,9 @@ const Register = props => {
                 <main className="pa4 black-80">
                     <div className="measure">
                         <h1>Registration was successful</h1>
+                        <Link to="/">
                         <button className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" >Sign In</button>
+                        </Link>
                     </div>
                 </main>
             </div>

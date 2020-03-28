@@ -1,15 +1,14 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 //components
-import { ProtectedRoute } from './ProtectedRoute';
+import ProtectedRoute from './ProtectedRoute';
 import Navigation from '../components/Navigation/Navigation';
 import Signin from '../components/Signin/Signin';
 import Register from '../components/Register/Register';
-import Facerecognition from '../components/Facerecognition/Facerecognition';
-import ImageLinkForm from '../components/ImageLinkForm/ImageLinkForm';
-import Rank from '../components/Rank/Rank';
+import Dashboard from '../containers/Dashboard';
+
 import Modal from '../components/Modal/Modal';
 import Profile from '../components/Profile/Profile';
 
@@ -88,8 +87,7 @@ class App extends React.Component {
   render() {
     const { boxes, isProfileOpen } = this.state;
     return (
-      <Router>
-
+      <Router >
         <div className="App">
           <Particles className='particles'
             params={particlesOptions}
@@ -105,28 +103,21 @@ class App extends React.Component {
                 loadUser={this.loadUser} />
             </Modal>} */}
           <Switch>
-            <ProtectedRoute
-              path='/profile'
-              render={props =>
-                <Fragment>
-                  <Rank />
-                  <ImageLinkForm />
-                  <Facerecognition />
-                </Fragment>
-              }
-            />
-            <Route exact path="/"
-              component={Signin} />
+            <Route exact path="/" component={Signin} />
             <Route
-              path="/register"
-              component={Register} />
+              path="/register" component={Register} />
+            <ProtectedRoute path="/dashboard" component={Dashboard}
+            />
             <Route path="*" component={() => "404 NOT FOUND"} />
           </Switch>
         </div>
-
       </Router>
     );
   }
 }
 
-export default connect()(App);
+const mapStateToProps=(state)=>({
+  ...state
+})
+
+export default connect(mapStateToProps)(App);
