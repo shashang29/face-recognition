@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'
-import { setPending } from '../../actions/actions'
 import { registerUserAction } from '../../actions/user.actions';
 import { validateAll } from 'indicative/validator';
 
@@ -53,7 +52,6 @@ const Register = props => {
         validateAll(data, rules, messages)
             .then(() => {
                 props.dispatch(registerUserAction({ ...userInputs }))
-                props.dispatch(setPending(true))
             })
             .catch(err => {
                 const formattedErrors = {}
@@ -132,8 +130,8 @@ const Register = props => {
                             <button
                                 onClick={onSubmitRegister}
                                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" >
-                                {props.isPending.pending ? <div className="loader"></div> :
-                                    <span>Register</span>}
+                                {/* {props.isPending.pending ? <div className="loader"></div> :
+                                    <span>Register</span>} */}
                             </button>
                         </div>
 

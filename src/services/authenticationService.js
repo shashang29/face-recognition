@@ -1,10 +1,11 @@
-export const loginUserService = (userData) => {
+export const loginUserService = ({email, password}) => {
+    console.log(email)
     return fetch('http://localhost:3005/signin', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            email: userData.email,
-            password: userData.password
+            email: email,
+            password: password
         })
     })
         .then(response => response.json())

@@ -1,14 +1,24 @@
 import { userConstants } from '../constants/userAuth.constants';
 
 
-export const loginUserAction = (email,password, history) => {
+export const loginUserRequest = (emailAndPassword) => {
     return {
         type: userConstants.SIGNIN_REQUEST,
-        email,
-        password,
-        history
+        payload: emailAndPassword
     }
 };
+
+ export const signInSuccess = user => ({
+    type: userConstants.SIGNIN_SUCCESS,
+    payload: user
+  });
+
+  
+  export const signInFailed = error => ({
+    type: userConstants.SIGNIN_FAILED,
+    payload: error
+  });
+  
 
 export const getUserData =(userID)=>{
     return{

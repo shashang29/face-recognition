@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { validateAll } from 'indicative/validator';
-import { setPending } from '../../actions/actions'
-import { loginUserAction } from '../../actions/user.actions';
+import { loginUserRequest} from '../../actions/user.actions';
 
 const Signin = props => {
 
@@ -27,7 +26,7 @@ const Signin = props => {
 
     const onSubmitSignIn = (event) => {
         event.preventDefault();
-       const {history}= props;
+       const {signinRequest}= props;
         const data = userInputs;
         const rules = {
             email: 'required|email',
@@ -40,8 +39,7 @@ const Signin = props => {
 
         validateAll(data, rules, messages)
             .then(() => {
-                props.dispatch(loginUserAction(userInputs.email, userInputs.password, history));
-                props.dispatch(setPending(true))
+                signinRequest(userInputs.email, userInputs.password);
             })
             .catch(err => {
                 const formattedErrors = {}
@@ -52,7 +50,7 @@ const Signin = props => {
             })
     }
 
-
+   const {pending, error}= props;
     return (
         <form onSubmit={onSubmitSignIn}
             className="br3 ba b--black-10 mv4 w-100 w-50-m w-30-l mw6 shadow-3 center">
@@ -60,7 +58,7 @@ const Signin = props => {
                 <div className="measure">
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                         <legend className="f1 fw6 ph0 mh0">Sign In</legend>
-                        <span className='red b '>{props.login.error}</span>
+                        <span className='red b '>{error}</span>
                         <div className="mt3">
                             <div>
                                 <label className="db fw6 lh-copy f4 mb0 pa0" htmlFor="email-address">Email</label>
@@ -84,7 +82,7 @@ const Signin = props => {
                         <button
                             onClick={onSubmitSignIn}
                             className="ph3 pv2 input-reset ba b--black bg-transparent grow pointer f5" type="submit">
-                            {props.isPending.pending ? <div className="loader"></div> :
+                            {pending ? <div className="loader"></div> :
                                 <span>Sign in</span>}
                         </button>
                     </div>
@@ -101,6 +99,14 @@ const Signin = props => {
 
 }
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = ({login:{isPending, error}})=> ({ 
+    pending: isPending,
+    error: error
+});
 
-export default connect(mapStateToProps)(Signin);
+const mapDispatchToProps= dispatch=> ({
+    signinRequest: (email, password) =>
+    dispatch(loginUserRequest({ email, password }))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signin);

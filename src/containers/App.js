@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 //components
 import ProtectedRoute from './ProtectedRoute';
@@ -86,6 +86,7 @@ class App extends React.Component {
 
   render() {
     const { boxes, isProfileOpen } = this.state;
+    const {isSignedIn}=this.props;
     return (
       <Router >
         <div className="App">
@@ -103,7 +104,11 @@ class App extends React.Component {
                 loadUser={this.loadUser} />
             </Modal>} */}
           <Switch>
-            <Route exact path="/" component={Signin} />
+            <Route exact path="/" render={()=>
+            isSignedIn ? (<Redirect to='/dashboard'/>):(
+              <Signin/>
+            )
+            } />
             <Route
               path="/register" component={Register} />
             <ProtectedRoute path="/dashboard" component={Dashboard}
@@ -116,6 +121,9 @@ class App extends React.Component {
   }
 }
 
+const mapStateToProps = ({login:{isSignedIn}})=> ({ isSignedIn: isSignedIn
+});
 
-
-export default App;
+export default connect(
+  mapStateToProps
+)(App);

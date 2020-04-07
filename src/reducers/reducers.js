@@ -1,4 +1,4 @@
-import { CHANGE_IMAGE_INPUT, PENDING, SET_IMAGE_URL } from '../constants/constants';
+import { CHANGE_IMAGE_INPUT, SET_IMAGE_URL } from '../constants/constants';
 
 
 const initialImageState = {
@@ -17,14 +17,3 @@ export const imageInput = (state = initialImageState, action = {}) => {
     }
 }
 
-
-
-
-export const isPending = (state = { pending: false }, action = {}) => {
-    switch (action.type) {
-        case PENDING:
-            return { ...state, pending: action.payload };
-        default:
-            return state;
-    }
-}

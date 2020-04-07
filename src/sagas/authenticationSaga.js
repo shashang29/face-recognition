@@ -1,22 +1,23 @@
 import { put, call } from 'redux-saga/effects';
-import { push } from 'react-router-dom';
+
 
 import { loginUserService, registerUserService, getUserData } from '../services/authenticationService';
 import { userConstants } from '../constants/userAuth.constants';
-import { PENDING } from '../constants/constants';
+import {signInSuccess, signInFailed} from '../actions/user.actions';
 
-export function* loginSaga(action) {
-    const response = yield call(loginUserService, action);
-    const { history } = action;
+export function* sigininSaga({payload}) {
+    try{
+    const response = yield call(loginUserService, payload);
     if (response.id) {
-        yield put({ type: userConstants.SIGNIN_SUCCESS, response });
-        yield put({ type: PENDING, payload: false });
-        history.push('/dashboard');
+        yield put(signInSuccess(response));
     }
     else {
-        yield put({ type: userConstants.SIGNIN_FAILED, response })
-        yield put({ type: PENDING, payload: false })
+        yield put(signInFailed(response))
+    }} catch (error){
+        console.log(error)
+        yield put(signInFailed(error.message))
     }
+
 }
 
 
@@ -24,9 +25,7 @@ export function* registerSaga(payload) {
     const response = yield call(registerUserService, payload);
     if (response.id) {
         yield put({ type: userConstants.REGISTER_SUCCESS, payload })
-        yield put({ type: PENDING, payload: false })
     } else {
         yield put({ type: userConstants.REGISTER_FAILED, payload })
-        yield put({ type: PENDING, payload: false })
     }
 }

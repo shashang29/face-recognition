@@ -5,7 +5,6 @@ import register from './registerReducer';
 
 const rootReducer = combineReducers({
     imageInput,
-    isPending,
     login,
     register
 

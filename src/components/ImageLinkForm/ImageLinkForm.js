@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setImageInput, submitImage, setPending, setImageURL } from '../../actions/actions';
+import { setImageInput, submitImage, setImageURL } from '../../actions/actions';
 import './ImageLinkForm.css';
 
 
@@ -46,7 +46,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setImageInput(event.target.value)),
     onImageSubmit: input => {
       dispatch(submitImage(input))
-      dispatch(setPending(true))
       dispatch(setImageURL(input))
     }
   }
