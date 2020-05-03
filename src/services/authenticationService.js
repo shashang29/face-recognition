@@ -1,5 +1,18 @@
-export const loginUserService = ({email, password}) => {
-    console.log(email)
+const getUserdata = (userId) => {
+    const token = window.sessionStorage.getItem('token');
+    return fetch(`http://localhost:3005/profile/${userId}`,
+        {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        })
+        .then(response => response.json())
+        .catch(err => err)
+}
+
+export const loginUserService = ({ email, password }) => {
     return fetch('http://localhost:3005/signin', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
@@ -13,23 +26,24 @@ export const loginUserService = ({email, password}) => {
             if (data.userId && data.success === 'true') {
                 window.sessionStorage.setItem('token', data.token);
             }
+            return getUserdata(data.userId)
 
-            return fetch(`http://localhost:3005/profile/${data.userId}`,
-                {
-                    method: 'get',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': data.token
-                    }
-                })
-                .then(response => response.json())
-                .catch(err => err)
+            // return fetch(`http://localhost:3005/profile/${data.userId}`,
+            //     {
+            //         method: 'get',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //             'Authorization': data.token
+            //         }
+            //     })
+            //     .then(response => response.json())
+            //     .catch(err => err)
 
         })
 };
 
 
-export const registerUserService = ({userData}) => {
+export const registerUserService = ({ userData }) => {
     console.log(userData)
     return fetch('http://localhost:3005/register', {
         method: 'post',
