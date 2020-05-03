@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
+import { signOut } from '../../actions/user.actions';
+import { toggleModal } from '../../actions/actions';
+
 import {
     Dropdown,
     DropdownToggle,
     DropdownMenu,
     DropdownItem
 } from 'reactstrap';
-import { signOut } from '../../actions/user.actions'
 
 
 const ProfileIcon = ({ toggleModal, signOut }) => {
@@ -42,7 +44,8 @@ const ProfileIcon = ({ toggleModal, signOut }) => {
     )
 }
 const mapDispatchToProps = (dispatch) => ({
-    signOut: () => dispatch(signOut())
+    signOut: () => dispatch(signOut()),
+    toggleModal: () => dispatch(toggleModal())
 })
 
 export default connect(null, mapDispatchToProps)(ProfileIcon);

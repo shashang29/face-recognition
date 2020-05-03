@@ -1,4 +1,5 @@
-import { CHANGE_IMAGE_INPUT, SUBMIT_IMAGE, SET_IMAGE_URL
+import {
+    CHANGE_IMAGE_INPUT, SUBMIT_IMAGE, SET_IMAGE_URL, PROFILE_TOGGLE
 } from '../constants/constants';
 
 
@@ -8,13 +9,16 @@ export const setImageInput = (ImageURL) => ({
 });
 
 
-
-export const submitImage=(ImageURL)=>({
-type: SUBMIT_IMAGE,
-payload: ImageURL
+export const submitImage = (ImageURL) => ({
+    type: SUBMIT_IMAGE,
+    payload: ImageURL
 });
 
-export const setImageURL=(ImageURL)=>({
+export const setImageURL = (ImageURL) => ({
     type: SET_IMAGE_URL,
     payload: ImageURL
+});
+
+export const toggleModal = () => ({
+    type: PROFILE_TOGGLE
 });

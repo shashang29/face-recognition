@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { toggleModal } from '../../actions/actions';
+
 import './Profile.css';
 
 class Profile extends React.Component {
@@ -30,7 +34,8 @@ class Profile extends React.Component {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': window.sessionStorage.getItem('token')            },
+                'Authorization': window.sessionStorage.getItem('token')
+            },
             body: JSON.stringify({
                 formInput: data
             })
@@ -84,6 +89,12 @@ class Profile extends React.Component {
             </div>)
     }
 }
+const mapStateToProps = state => ({
+    user: state.login.user
+});
 
+const mapDispatchToProps = dispatch => ({
+    toggleModal: () => dispatch(toggleModal())
+})
 
-export default Profile;
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

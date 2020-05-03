@@ -9,8 +9,6 @@ import Signin from '../components/Signin/Signin';
 import Register from '../components/Register/Register';
 import Dashboard from '../containers/Dashboard';
 
-import Modal from '../components/Modal/Modal';
-import Profile from '../components/Profile/Profile';
 
 import { getUserData } from '../actions/user.actions'
 
@@ -98,14 +96,6 @@ class App extends React.Component {
           />
           <Navigation
             toggleModal={this.toggleModal} />
-          {/* {isProfileOpen &&
-            <Modal>
-              <Profile
-                isProfileOpen={isProfileOpen}
-                user={user}
-                toggleModal={this.toggleModal}
-                loadUser={this.loadUser} />
-            </Modal>} */}
           <Switch>
             <Route exact path="/" render={() =>
               isSignedIn ? (<Redirect to='/dashboard' />) : (
