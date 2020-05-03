@@ -12,7 +12,8 @@ import Dashboard from '../containers/Dashboard';
 import Modal from '../components/Modal/Modal';
 import Profile from '../components/Profile/Profile';
 
-import { loginUserAction } from '../actions/user.actions'
+import { getUserData } from '../actions/user.actions'
+
 
 import Particles from 'react-particles-js';
 import './App.css';
@@ -44,13 +45,15 @@ class App extends React.Component {
     this.state = initialState;
   }
 
-  // componentDidMount() {
-  //   const token = window.sessionStorage.getItem('token');
-  //   if (token) {
-  //  this.props.dispatch(loginUserAction(token))
-  //   }
-  // }
-
+  componentDidMount() {
+    const checkSession = () => {
+      const token = window.sessionStorage.getItem('token');
+      if (token) {
+        this.props.getUserDataStart(token);
+      }
+    }
+    checkSession();
+  }
 
   calculateFaceLocation = (data) => {
     if (data && data.outputs) {
@@ -86,7 +89,7 @@ class App extends React.Component {
 
   render() {
     const { boxes, isProfileOpen } = this.state;
-    const {isSignedIn}=this.props;
+    const { isSignedIn } = this.props;
     return (
       <Router >
         <div className="App">
@@ -104,10 +107,10 @@ class App extends React.Component {
                 loadUser={this.loadUser} />
             </Modal>} */}
           <Switch>
-            <Route exact path="/" render={()=>
-            isSignedIn ? (<Redirect to='/dashboard'/>):(
-              <Signin/>
-            )
+            <Route exact path="/" render={() =>
+              isSignedIn ? (<Redirect to='/dashboard' />) : (
+                <Signin />
+              )
             } />
             <Route
               path="/register" component={Register} />
@@ -121,9 +124,12 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({login:{isSignedIn}})=> ({ isSignedIn: isSignedIn
+const mapStateToProps = ({ login: { isSignedIn } }) => ({
+  isSignedIn: isSignedIn
 });
 
-export default connect(
-  mapStateToProps
-)(App);
+const mapDispatchToProps = dispatch => ({
+  getUserDataStart: (token) => dispatch(getUserData(token))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

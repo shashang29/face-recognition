@@ -8,22 +8,22 @@ export const loginUserRequest = (emailAndPassword) => {
     }
 };
 
- export const signInSuccess = user => ({
+export const signInSuccess = user => ({
     type: userConstants.SIGNIN_SUCCESS,
     payload: user
-  });
+});
 
-  
-  export const signInFailed = error => ({
+
+export const signInFailed = error => ({
     type: userConstants.SIGNIN_FAILED,
     payload: error
-  });
-  
+});
 
-export const getUserData =(userID)=>{
-    return{
+
+export const getUserData = (token) => {
+    return {
         type: userConstants.GET_USER_DATA,
-        userID
+        payload: token
     }
 };
 
@@ -33,3 +33,9 @@ export const registerUserAction = (userData) => {
         userData
     }
 };
+
+export const signOut = () => {
+    return {
+        type: userConstants.SIGN_OUT
+    }
+}

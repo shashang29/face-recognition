@@ -59,3 +59,20 @@ export const registerUserService = ({ userData }) => {
         .then(response => response.json())
         .catch(err => err)
 }
+
+export const sessionService = (token) => {
+    return fetch('http://localhost:3005/signin', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    })
+        .then(resp => resp.json())
+        .then(data => {
+            if (data && data.id) {
+                return getUserdata(data.id)
+            }
+        })
+        .catch(console.log)
+}

@@ -8,11 +8,12 @@ const initialUserState = {
 }
 
 const { SIGNIN_REQUEST,
-    SIGNIN_FAILED, SIGNIN_SUCCESS,
+    SIGNIN_FAILED, SIGNIN_SUCCESS, SIGN_OUT
 } = userConstants;
 
 
 export default function (state = initialUserState, action = {}) {
+    console.log(action.payload)
     switch (action.type) {
         case SIGNIN_REQUEST:
             return { ...state, isPending: true }
@@ -20,6 +21,8 @@ export default function (state = initialUserState, action = {}) {
             return { ...state, isSignedIn: true, isPending: false, error: null, user: action.payload };
         case SIGNIN_FAILED:
             return { ...state, error: action.payload, isPending: false }
+        case SIGN_OUT:
+            return { ...initialUserState }
         default:
             return state;
     }

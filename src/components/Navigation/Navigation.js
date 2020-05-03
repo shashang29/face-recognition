@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import Logo from '../Logo/Logo';
 import ProfileIcon from '../Profile/Profileicon'
 
-const Navigation = ({isSignedIn, toggleModal }) => {
-
-    if (isSignedIn) {
+const Navigation = ({ isSignedIn, toggleModal }) => {
+    const token = window.sessionStorage.getItem('token');
+    if (token) {
         return (
             <nav style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Logo />
@@ -27,7 +27,7 @@ const Navigation = ({isSignedIn, toggleModal }) => {
 
                         <div>
                             <Link to='/' style={{ textDecoration: 'none' }}>
-                                <p  className='f4 link dim black ma3 mr1 pa2 pointer shadow-5'>Sign In</p>
+                                <p className='f4 link dim black ma3 mr1 pa2 pointer shadow-5'>Sign In</p>
                             </Link>
                         </div>
 
@@ -49,7 +49,7 @@ const Navigation = ({isSignedIn, toggleModal }) => {
 
 }
 
-const mapStateToProps = ({login})=> {
+const mapStateToProps = ({ login }) => {
     return {
         login: login.isSignedIn
     }

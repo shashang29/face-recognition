@@ -1,11 +1,10 @@
 body {
-  margin: 0;
+  margin: 10px;
   padding: 0;
-font-family: "Courier New", Courier, moonspace;
-background: linear-gradient(to left, rgb(56, 205, 250) , rgb(134, 248, 233));
+  font-family: "Courier New", Courier, moonspace;
+  background: linear-gradient(to left, rgb(56, 205, 250), rgb(134, 248, 233));
 }
 
 button {
   cursor: pointer;
 }
-

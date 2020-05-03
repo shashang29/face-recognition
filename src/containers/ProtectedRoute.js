@@ -1,14 +1,15 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import { Route, Redirect } from 'react-router-dom';
+import { userConstants } from '../constants/userAuth.constants';
 
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
     return (
         <Route {...rest}
             render={props =>
-                window.sessionStorage.getItem('token') ? (
+                window.sessionStorage.getItem('token') && rest.login.isSignedIn ? (
                     <Component {...props} />
                 ) : (
                         <Redirect
@@ -23,8 +24,8 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
     );
 }
 
-const mapStateToProps=(state)=>({
+const mapStateToProps = (state) => ({
     ...state
-  })
-  
-  export default connect(mapStateToProps)(ProtectedRoute);
+})
+
+export default connect(mapStateToProps)(ProtectedRoute);
