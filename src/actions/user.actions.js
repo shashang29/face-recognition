@@ -34,6 +34,12 @@ export const registerUserAction = (userData) => {
     }
 };
 
+export const registerReset = () => {
+    return {
+        type: userConstants.REGISTER_RESET
+    }
+};
+
 export const signOut = () => {
     return {
         type: userConstants.SIGN_OUT

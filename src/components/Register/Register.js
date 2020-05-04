@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom'
-import { registerUserAction } from '../../actions/user.actions';
+import { Link } from 'react-router-dom'
+import { registerUserAction, registerReset } from '../../actions/user.actions';
 import { validateAll } from 'indicative/validator';
 
 
 
-const Register = props => {
+const Register = ({ registered, error, registerUserAction, registerReset }) => {
 
     const [userInputs, setUserInputs] = useState({
         first_name: '',
@@ -51,7 +51,7 @@ const Register = props => {
 
         validateAll(data, rules, messages)
             .then(() => {
-                props.dispatch(registerUserAction({ ...userInputs }))
+                registerUserAction({ ...userInputs })
             })
             .catch(err => {
                 const formattedErrors = {}
@@ -63,14 +63,14 @@ const Register = props => {
     }
 
 
-    if (props.register.registered === true) {
+    if (registered === true) {
         return (
             <div className="b--transparent w-80 w-50-m w-25-s mw6 shadow-3 center h-50">
                 <main className="pa4 black-80">
                     <div className="measure">
                         <h1>Registration was successful</h1>
                         <Link to="/">
-                        <button className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" >Sign In</button>
+                            <button className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" onClick={() => registerReset()} >Sign In</button>
                         </Link>
                     </div>
                 </main>
@@ -86,7 +86,7 @@ const Register = props => {
                     <div className="measure">
                         <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                             <legend className="f1 fw6 ph0 mh0">Register</legend>
-                            <span className='red b '>{props.register.error}</span>
+                            <span className='red b '>{error}</span>
                             <div className=" pl2 pr2 mt3">
                                 <div>
                                     <label className="db fw6 lh-copy f4 mb0 pa0" htmlFor="firstname">First Name</label>
@@ -138,10 +138,19 @@ const Register = props => {
                     </div>
                 </main>
             </form>
-        )}
+        )
+    }
 }
 
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = ({ register: { registered, error } }) => ({
+    registered: registered,
+    error: error
+});
 
-export default connect(mapStateToProps)(Register);
+const mapDispatchToProps = dispatch => ({
+    registerUserAction: (userInputs) => dispatch(registerUserAction(userInputs)),
+    registerReset: () => dispatch(registerReset())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

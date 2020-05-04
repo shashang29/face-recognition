@@ -44,7 +44,6 @@ export const loginUserService = ({ email, password }) => {
 
 
 export const registerUserService = ({ userData }) => {
-    console.log(userData)
     return fetch('http://localhost:3005/register', {
         method: 'post',
         headers: { 'Content-Type': 'application/json', },

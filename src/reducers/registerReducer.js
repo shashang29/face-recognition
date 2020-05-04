@@ -6,7 +6,7 @@ const initialRegisterState = {
 }
 
 const {
-    REGISTER_FAILED, REGISTER_SUCCESS
+    REGISTER_FAILED, REGISTER_SUCCESS, REGISTER_RESET
 } = userConstants;
 
 
@@ -16,6 +16,8 @@ export default function (state = initialRegisterState, action = {}) {
             return { ...state, registered: true };
         case REGISTER_FAILED:
             return { ...state, error: 'Could not register. Try again' }
+        case REGISTER_RESET:
+            return { initialRegisterState }
         default:
             return state;
     }
