@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 const Rank = ({ first_name, entries }) => {
-    console.log('first name:' +first_name)
+
     const [emoji, setEmoji] = useState('');
 
     useEffect(() => {
-        
+
         generateEmoji(entries)
     }, [entries]);
 
@@ -31,9 +31,9 @@ const Rank = ({ first_name, entries }) => {
         </div>
     )
 }
-const mapStateToProps=({login})=>({
-first_name: login.user.first_name,
-entries: login.user.entries
+const mapStateToProps = ({ login: { user } }) => ({
+    first_name: user.first_name,
+    entries: user.entries
 })
 
 export default connect(mapStateToProps)(Rank);

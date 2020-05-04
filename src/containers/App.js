@@ -10,7 +10,7 @@ import Register from '../components/Register/Register';
 import Dashboard from '../containers/Dashboard';
 
 
-import { getUserData } from '../actions/user.actions'
+import { getUserData } from '../actions/userAuth.actions'
 
 
 import Particles from 'react-particles-js';
@@ -33,8 +33,7 @@ const particlesOptions = {
 }
 
 const initialState = {
-  boxes: [],
-  isProfileOpen: false
+  boxes: []
 }
 
 class App extends React.Component {
@@ -53,30 +52,8 @@ class App extends React.Component {
     checkSession();
   }
 
-  calculateFaceLocation = (data) => {
-    if (data && data.outputs) {
-      let boxes = []
-      for (let i = 0; i < data.outputs[0].data.regions.length; i++) {
-        const clarifaiFace = data.outputs[0].data.regions[i].region_info.bounding_box;
-        const image = document.getElementById('inputimage');
-        const width = Number(image.width)
-        const height = Number(image.height)
-        boxes.push({
-          leftCol: clarifaiFace.left_col * width,
-          topRow: clarifaiFace.top_row * height,
-          rightCol: width - (clarifaiFace.right_col * width),
-          bottomRow: height - (clarifaiFace.bottom_row * height),
-        })
-      }
-      return boxes;
-    }
-    return;
-  }
-  displayFaceBox = (boxes) => {
-    if (boxes) {
-      this.setState({ boxes: boxes });
-    }
-  }
+
+
 
   toggleModal = () => {
     this.setState(prevState => ({
@@ -86,7 +63,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { boxes, isProfileOpen } = this.state;
+    const { boxes } = this.state;
     const { isSignedIn } = this.props;
     return (
       <Router >

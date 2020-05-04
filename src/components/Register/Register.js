@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { registerUserAction, registerReset } from '../../actions/user.actions';
+import { registerUserAction, registerReset } from '../../actions/userAuth.actions';
 import { validateAll } from 'indicative/validator';
 
 

@@ -7,7 +7,7 @@ import Rank from '../components/Rank/Rank';
 import Modal from '../components/Modal/Modal';
 import Profile from '../components/Profile/Profile';
 
-import { loginUserRequest } from '../actions/user.actions';
+import { loginUserRequest } from '../actions/userAuth.actions';
 
 
 const Dashboard = ({ isProfileOpen, user, toggleModal }) => {

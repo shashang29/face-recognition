@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { setImageInput, submitImage, setImageURL } from '../../actions/actions';
+import { submitImage, resetImageState } from '../../actions/user.actions';
 import './ImageLinkForm.css';
 
 
-const ImageLinkForm = (props) => {
+const ImageLinkForm = ({ onImageSubmit, resetImageState }) => {
+  const [imageUrl, setImageUrl] = useState('');
 
   const handleSubmitImage = (event) => {
     event.preventDefault();
-    props.onImageSubmit(props.input)
+    if (imageUrl) {
+      resetImageState();
+      onImageSubmit(imageUrl)
+    }
+  }
+
+  const handleInputChange = ({ target }) => {
+    setImageUrl(target.value)
   }
 
   return (
@@ -21,34 +29,20 @@ const ImageLinkForm = (props) => {
       </p>
       <div className='center'>
         <div className='center form pa4 br3 shadow-5'>
-          <input type='text' className='f4 pa2 w-70 center' onChange={props.onImageInputChange} />
+          <input type='text' className='f4 pa2 w-70 center' onChange={handleInputChange} />
           <button className='w-30 grow f4 link ph3 pv2 dib white bg-black'
             onSubmit={handleSubmitImage}
             type='submit'
-          > Detect
-                    </button>
+          > Detect</button>
         </div>
       </div>
     </form>
   )
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  onImageSubmit: input => dispatch(submitImage(input)),
+  resetImageState: () => dispatch(resetImageState())
+});
 
-const mapStateToProps = state => {
-  return {
-    input: state.imageInput.input
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onImageInputChange: event =>
-      dispatch(setImageInput(event.target.value)),
-    onImageSubmit: input => {
-      dispatch(submitImage(input))
-      dispatch(setImageURL(input))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ImageLinkForm);
+export default connect(null, mapDispatchToProps)(ImageLinkForm);

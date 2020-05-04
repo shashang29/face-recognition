@@ -1,4 +1,5 @@
 import { userConstants } from '../constants/userAuth.constants';
+import { UPDATE_IMAGE_COUNT } from '../constants/user.constants';
 
 const initialUserState = {
     user: null,
@@ -13,7 +14,6 @@ const { SIGNIN_REQUEST,
 
 
 export default function (state = initialUserState, action = {}) {
-    console.log(action.payload)
     switch (action.type) {
         case SIGNIN_REQUEST:
             return { ...state, isPending: true }
@@ -21,8 +21,10 @@ export default function (state = initialUserState, action = {}) {
             return { ...state, isSignedIn: true, isPending: false, error: null, user: action.payload };
         case SIGNIN_FAILED:
             return { ...state, error: action.payload, isPending: false }
+        case UPDATE_IMAGE_COUNT:
+            return { ...state, user: { ...state.user, entries: action.payload } }
         case SIGN_OUT:
-            return { ...initialUserState }
+            return initialUserState
         default:
             return state;
     }

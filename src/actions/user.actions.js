@@ -1,47 +1,25 @@
-import { userConstants } from '../constants/userAuth.constants';
+import {
+    SUBMIT_IMAGE,
+    PROFILE_TOGGLE,
+    DISPLAY_FACE_DATA,
+    RESET_IMAGE_STATE
+} from '../constants/user.constants';
 
 
-export const loginUserRequest = (emailAndPassword) => {
-    return {
-        type: userConstants.SIGNIN_REQUEST,
-        payload: emailAndPassword
-    }
-};
-
-export const signInSuccess = user => ({
-    type: userConstants.SIGNIN_SUCCESS,
-    payload: user
+export const submitImage = (ImageURL) => ({
+    type: SUBMIT_IMAGE,
+    payload: ImageURL
 });
 
-
-export const signInFailed = error => ({
-    type: userConstants.SIGNIN_FAILED,
-    payload: error
+export const toggleModal = () => ({
+    type: PROFILE_TOGGLE
 });
 
+export const displayFaceData = (FaceBoxes) => ({
+    type: DISPLAY_FACE_DATA,
+    payload: FaceBoxes
+});
 
-export const getUserData = (token) => {
-    return {
-        type: userConstants.GET_USER_DATA,
-        payload: token
-    }
-};
-
-export const registerUserAction = (userData) => {
-    return {
-        type: userConstants.REGISTER_REQUEST,
-        userData
-    }
-};
-
-export const registerReset = () => {
-    return {
-        type: userConstants.REGISTER_RESET
-    }
-};
-
-export const signOut = () => {
-    return {
-        type: userConstants.SIGN_OUT
-    }
-}
+export const resetImageState = () => ({
+    type: RESET_IMAGE_STATE
+});

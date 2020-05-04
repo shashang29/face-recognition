@@ -3,7 +3,7 @@ import { put, call } from 'redux-saga/effects';
 
 import { loginUserService, registerUserService, sessionService } from '../services/authenticationService';
 import { userConstants } from '../constants/userAuth.constants';
-import { signInSuccess, signInFailed } from '../actions/user.actions';
+import { signInSuccess, signInFailed } from '../actions/userAuth.actions';
 
 export function* sigininSaga({ payload }) {
     try {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { signOut } from '../../actions/user.actions';
-import { toggleModal } from '../../actions/actions';
+import { signOut } from '../../actions/userAuth.actions';
+import { toggleModal, resetImageState } from '../../actions/user.actions';
 
 import {
     Dropdown,
@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 
 
-const ProfileIcon = ({ toggleModal, signOut }) => {
+const ProfileIcon = ({ toggleModal, signOut, resetImageState }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const toggle = () => setDropdownOpen(prevState => !prevState);
 
@@ -36,6 +36,7 @@ const ProfileIcon = ({ toggleModal, signOut }) => {
                     <DropdownItem
                         onClick={() => {
                             window.sessionStorage.clear();
+                            resetImageState();
                             signOut();
                         }}>Sign out</DropdownItem>
                 </DropdownMenu>
@@ -44,6 +45,7 @@ const ProfileIcon = ({ toggleModal, signOut }) => {
     )
 }
 const mapDispatchToProps = (dispatch) => ({
+    resetImageState: () => dispatch(resetImageState()),
     signOut: () => dispatch(signOut()),
     toggleModal: () => dispatch(toggleModal())
 })

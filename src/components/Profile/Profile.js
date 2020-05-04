@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { toggleModal } from '../../actions/actions';
+import { toggleModal } from '../../actions/user.actions';
 
 import './Profile.css';
 

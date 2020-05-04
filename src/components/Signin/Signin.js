@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { validateAll } from 'indicative/validator';
-import { loginUserRequest} from '../../actions/user.actions';
+import { loginUserRequest } from '../../actions/userAuth.actions';
 
 const Signin = props => {
 
@@ -26,7 +26,7 @@ const Signin = props => {
 
     const onSubmitSignIn = (event) => {
         event.preventDefault();
-       const {signinRequest}= props;
+        const { signinRequest } = props;
         const data = userInputs;
         const rules = {
             email: 'required|email',
@@ -50,7 +50,7 @@ const Signin = props => {
             })
     }
 
-   const {pending, error}= props;
+    const { pending, error } = props;
     return (
         <form onSubmit={onSubmitSignIn}
             className="br3 ba b--black-10 mv4 w-100 w-50-m w-30-l mw6 shadow-3 center">
@@ -99,14 +99,14 @@ const Signin = props => {
 
 }
 
-const mapStateToProps = ({login:{isPending, error}})=> ({ 
+const mapStateToProps = ({ login: { isPending, error } }) => ({
     pending: isPending,
     error: error
 });
 
-const mapDispatchToProps= dispatch=> ({
+const mapDispatchToProps = dispatch => ({
     signinRequest: (email, password) =>
-    dispatch(loginUserRequest({ email, password }))
+        dispatch(loginUserRequest({ email, password }))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signin);
