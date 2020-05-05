@@ -5,21 +5,22 @@ const initialImageState = {
     input: '',
     imageUrl: '',
     faceBoxes: [],
-    error: ''
+    error: '',
+    isPending: false
 }
 
 export const imageInput = (state = initialImageState, action = {}) => {
     switch (action.type) {
         case SUBMIT_IMAGE:
-            return { ...state, imageUrl: action.payload }
+            return { ...state, imageUrl: action.payload, isPending: true }
         case DISPLAY_FACE_DATA: return {
-            ...state, faceBoxes: action.payload
+            ...state, faceBoxes: action.payload, isPending: false
         }
         case NO_FACE_DETECTED: return {
-            ...state, error: 'No face was detected'
+            ...state, error: 'No face was detected', isPending: false
         }
         case FETCH_IMAGE_DATA_FAILED: return {
-            ...state, error: 'There was an error. Please try again'
+            ...state, error: 'There was an error. Please try again', isPending: false
         }
         case RESET_IMAGE_STATE: return initialImageState
 

@@ -2,13 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux';
 import './Facerecognition.css'
 
-const Facerecognition = ({ imageUrl, faceBoxes, error }) => {
+const Facerecognition = ({ imageUrl, faceBoxes, error, pending }) => {
     if (error) {
         alert(error)
     }
+
     return (
-        <div className='center ma'>
-            <div className='absolute mt2'>
+        <div className='center ma image-container '>
+            <div className='absolute mt2 '>
+                {pending && <div className="analzing" ><h1>Analyzing...</h1></div>}
                 <img id='inputimage' width='500px' height='auto' alt='' src={imageUrl} />
                 {faceBoxes.map((box, index) => (
                     <div key={index} className='bounding-box'
@@ -28,11 +30,12 @@ const Facerecognition = ({ imageUrl, faceBoxes, error }) => {
     )
 
 }
-const mapStateToProps = ({ imageInput: { imageUrl, faceBoxes, error } }) => {
+const mapStateToProps = ({ imageInput: { imageUrl, faceBoxes, error, isPending } }) => {
     return {
         imageUrl,
         faceBoxes,
-        error
+        error,
+        pending: isPending
     }
 }
 

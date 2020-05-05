@@ -1,10 +1,22 @@
-.bounding-box{
+.image-container {
+    position: relative;
+}
+
+.analzing {
+    z-index: 2;
+    background-position: top;
+    background-color: rgba(0, 0, 0, 0.741);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    color: white;
+}
+
+.bounding-box {
     position: absolute;
     box-shadow: 0 0 0 3px #149df2 inset;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     cursor: pointer;
-    
 }
-
