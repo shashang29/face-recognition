@@ -3,7 +3,7 @@ import {
     PROFILE_TOGGLE,
     DISPLAY_FACE_DATA,
     RESET_IMAGE_STATE,
-    UPDATE_PROFILE
+    SUBMIT_PROFILE_UPDATE
 } from '../constants/user.constants';
 
 
@@ -25,7 +25,8 @@ export const resetImageState = () => ({
     type: RESET_IMAGE_STATE
 });
 
-export const updateProfile = (userData) => ({
-    type: UPDATE_PROFILE,
-    payload: userData
+export const submitProfileUpdate = (userData) => ({
+    type: SUBMIT_PROFILE_UPDATE,
+    userData
 });
+

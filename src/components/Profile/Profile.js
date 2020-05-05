@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { toggleModal, updateProfile } from '../../actions/user.actions';
+import { toggleModal, submitProfileUpdate } from '../../actions/user.actions';
 
 import './Profile.css';
 
-const Profile = ({ user, toggleModal, updateProfile }) => {
+const Profile = ({ user, toggleModal, submitProfileUpdate }) => {
 
     const [userData, setUserData] = useState({
         first_name: user.first_name,
@@ -27,10 +27,6 @@ const Profile = ({ user, toggleModal, updateProfile }) => {
                 return;
         }
     }
-    const onProfileUpdate = (userData) => {
-        updateProfile(userData)
-    }
-
 
     const { first_name, last_name, age } = userData;
     const { id } = user;
@@ -61,7 +57,7 @@ const Profile = ({ user, toggleModal, updateProfile }) => {
                         placeholder={age} type="text" name="age" id="age" />
                     <div className="mt4" style={{ display: "flex", justifyContent: 'space-evenly' }}>
                         <button
-                            onClick={() => onProfileUpdate({ first_name, last_name, age, id })}
+                            onClick={() => submitProfileUpdate({ first_name, last_name, age, id })}
                             className="b pa2 grow hover-bg-blue w-40 b--blue b--black-20">Save</button>
                         <button className="b pa2 grow hover-bg-light-red w-40 b--light-red b--black-20"
                             onClick={toggleModal}
@@ -73,13 +69,13 @@ const Profile = ({ user, toggleModal, updateProfile }) => {
         </div>)
 }
 
-const mapStateToProps = state => ({
-    user: state.login.user
+const mapStateToProps = ({ login: { user } }) => ({
+    user
 });
 
 const mapDispatchToProps = dispatch => ({
     toggleModal: () => dispatch(toggleModal()),
-    updateProfile: (updatedUserData) => dispatch(updateProfile(updatedUserData))
-})
+    submitProfileUpdate: (updatedUserData) => dispatch(submitProfileUpdate(updatedUserData))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

@@ -3,7 +3,7 @@ import { sigininSaga, registerSaga, getUserDataSaga } from './authenticationSaga
 import { imageSaga } from './imageSaga';
 import { profileSaga } from './profileSaga';
 import { userConstants } from '../constants/userAuth.constants';
-import { SUBMIT_IMAGE, UPDATE_PROFILE } from '../constants/user.constants';
+import { SUBMIT_IMAGE, SUBMIT_PROFILE_UPDATE } from '../constants/user.constants';
 
 export function* watchUserAuthentication() {
   yield takeLatest(userConstants.REGISTER_REQUEST, registerSaga);
@@ -17,5 +17,5 @@ export function* watchImageSubmission() {
 }
 
 export function* watchProfileUpdate() {
-  yield takeLatest(UPDATE_PROFILE, profileSaga);
+  yield takeLatest(SUBMIT_PROFILE_UPDATE, profileSaga);
 }

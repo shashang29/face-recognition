@@ -1,5 +1,5 @@
 import { userConstants } from '../constants/userAuth.constants';
-import { UPDATE_IMAGE_COUNT } from '../constants/user.constants';
+import { UPDATE_IMAGE_COUNT, UPDATE_PROFILE } from '../constants/user.constants';
 
 const initialUserState = {
     user: null,
@@ -23,6 +23,8 @@ export default function (state = initialUserState, action = {}) {
             return { ...state, error: action.payload, isPending: false }
         case UPDATE_IMAGE_COUNT:
             return { ...state, user: { ...state.user, entries: action.payload } }
+        case UPDATE_PROFILE:
+            return { ...state, user: { ...state.user, ...action.userData } }
         case SIGN_OUT:
             return initialUserState
         default:
