@@ -1,8 +1,9 @@
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, takeLeading } from 'redux-saga/effects';
 import { sigininSaga, registerSaga, getUserDataSaga } from './authenticationSaga';
 import { imageSaga } from './imageSaga';
+import { profileSaga } from './profileSaga';
 import { userConstants } from '../constants/userAuth.constants';
-import { SUBMIT_IMAGE } from '../constants/user.constants';
+import { SUBMIT_IMAGE, UPDATE_PROFILE } from '../constants/user.constants';
 
 export function* watchUserAuthentication() {
   yield takeLatest(userConstants.REGISTER_REQUEST, registerSaga);
@@ -12,5 +13,9 @@ export function* watchUserAuthentication() {
 }
 
 export function* watchImageSubmission() {
-  yield takeLatest(SUBMIT_IMAGE, imageSaga);
+  yield takeLeading(SUBMIT_IMAGE, imageSaga);
+}
+
+export function* watchProfileUpdate() {
+  yield takeLatest(UPDATE_PROFILE, profileSaga);
 }

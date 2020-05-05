@@ -4,12 +4,12 @@ import { submitImage, resetImageState } from '../../actions/user.actions';
 import './ImageLinkForm.css';
 
 
-const ImageLinkForm = ({ onImageSubmit, resetImageState }) => {
+const ImageLinkForm = ({ onImageSubmit, resetImageState, prevImageUrl }) => {
   const [imageUrl, setImageUrl] = useState('');
 
   const handleSubmitImage = (event) => {
     event.preventDefault();
-    if (imageUrl) {
+    if (imageUrl && imageUrl !== prevImageUrl) {
       resetImageState();
       onImageSubmit(imageUrl)
     }
@@ -39,10 +39,12 @@ const ImageLinkForm = ({ onImageSubmit, resetImageState }) => {
     </form>
   )
 }
-
+const mapStateToProps = ({ imageInput: { imageUrl } }) => ({
+  prevImageUrl: imageUrl
+})
 const mapDispatchToProps = (dispatch) => ({
   onImageSubmit: input => dispatch(submitImage(input)),
   resetImageState: () => dispatch(resetImageState())
 });
 
-export default connect(null, mapDispatchToProps)(ImageLinkForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ImageLinkForm);
