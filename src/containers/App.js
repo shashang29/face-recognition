@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
@@ -32,63 +32,40 @@ const particlesOptions = {
   }
 }
 
-const initialState = {
-  boxes: []
-}
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = initialState;
-  }
 
-  componentDidMount() {
-    const checkSession = () => {
-      const token = window.sessionStorage.getItem('token');
-      if (token) {
-        this.props.getUserDataStart(token);
-      }
+const App = ({ getUserDataStart, isSignedIn }) => {
+
+  useEffect(() => {
+    const token = window.sessionStorage.getItem('token');
+    if (token) {
+      getUserDataStart(token);
     }
-    checkSession();
-  }
+  }, [getUserDataStart])
 
 
-
-
-  toggleModal = () => {
-    this.setState(prevState => ({
-      ...prevState,
-      isProfileOpen: !prevState.isProfileOpen
-    }))
-  }
-
-  render() {
-    const { boxes } = this.state;
-    const { isSignedIn } = this.props;
-    return (
-      <Router >
-        <div className="App">
-          <Particles className='particles'
-            params={particlesOptions}
+  return (
+    <Router >
+      <div className="App">
+        <Particles className='particles'
+          params={particlesOptions}
+        />
+        <Navigation />
+        <Switch>
+          <Route exact path="/" render={() =>
+            isSignedIn ? (<Redirect to='/dashboard' />) : (
+              <Signin />
+            )
+          } />
+          <Route
+            path="/register" component={Register} />
+          <ProtectedRoute path="/dashboard" component={Dashboard}
           />
-          <Navigation
-            toggleModal={this.toggleModal} />
-          <Switch>
-            <Route exact path="/" render={() =>
-              isSignedIn ? (<Redirect to='/dashboard' />) : (
-                <Signin />
-              )
-            } />
-            <Route
-              path="/register" component={Register} />
-            <ProtectedRoute path="/dashboard" component={Dashboard}
-            />
-            <Route path="*" component={() => "404 NOT FOUND"} />
-          </Switch>
-        </div>
-      </Router>
-    );
-  }
+          <Route path="*" component={() => "404 NOT FOUND"} />
+        </Switch>
+      </div>
+    </Router>
+  );
 }
 
 const mapStateToProps = ({ login: { isSignedIn } }) => ({

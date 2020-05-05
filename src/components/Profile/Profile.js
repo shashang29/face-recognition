@@ -7,7 +7,7 @@ import './Profile.css';
 
 const Profile = ({ user, toggleModal, submitProfileUpdate }) => {
 
-    const [userData, setUserData] = useState({
+    const [userInputs, setUserInputs] = useState({
         first_name: user.first_name,
         last_name: user.last_name,
         age: user.age
@@ -15,21 +15,30 @@ const Profile = ({ user, toggleModal, submitProfileUpdate }) => {
     const onFormChange = (event) => {
         switch (event.target.name) {
             case 'firstname':
-                setUserData({ ...userData, first_name: event.target.value })
+                setUserInputs({ ...userInputs, first_name: event.target.value })
                 break;
             case 'lastname':
-                setUserData({ ...userData, last_name: event.target.value })
+                setUserInputs({ ...userInputs, last_name: event.target.value })
                 break;
             case 'age':
-                setUserData({ ...userData, age: event.target.value })
+                setUserInputs({ ...userInputs, age: event.target.value })
                 break;
             default:
                 return;
         }
     }
-
-    const { first_name, last_name, age } = userData;
+    const { first_name, last_name, age } = userInputs;
     const { id } = user;
+    const onSubmit = () => {
+        if (user.first_name !== first_name ||
+            user.last_name !== last_name ||
+            user.age !== age) {
+            submitProfileUpdate({ first_name, last_name, age, id })
+        } else {
+            toggleModal();
+        }
+
+    }
     return (
         <div className="profile-modal">
             <article
@@ -57,7 +66,7 @@ const Profile = ({ user, toggleModal, submitProfileUpdate }) => {
                         placeholder={age} type="text" name="age" id="age" />
                     <div className="mt4" style={{ display: "flex", justifyContent: 'space-evenly' }}>
                         <button
-                            onClick={() => submitProfileUpdate({ first_name, last_name, age, id })}
+                            onClick={onSubmit}
                             className="b pa2 grow hover-bg-blue w-40 b--blue b--black-20">Save</button>
                         <button className="b pa2 grow hover-bg-light-red w-40 b--light-red b--black-20"
                             onClick={toggleModal}

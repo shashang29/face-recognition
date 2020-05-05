@@ -7,7 +7,7 @@ import ProfileIcon from '../Profile/Profileicon'
 
 const Navigation = ({ isSignedIn, toggleModal }) => {
     const token = window.sessionStorage.getItem('token');
-    if (token) {
+    if (token && isSignedIn) {
         return (
             <nav style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Logo />
@@ -49,9 +49,7 @@ const Navigation = ({ isSignedIn, toggleModal }) => {
 
 }
 
-const mapStateToProps = ({ login }) => {
-    return {
-        login: login.isSignedIn
-    }
-}
+const mapStateToProps = ({ login: { isSignedIn } }) => ({
+    isSignedIn
+})
 export default connect(mapStateToProps)(Navigation)

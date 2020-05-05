@@ -6,7 +6,7 @@ import { validateAll } from 'indicative/validator';
 
 
 
-const Register = ({ registered, error, registerUserAction, registerReset }) => {
+const Register = ({ registered, error, registerUserAction, registerReset, pending }) => {
 
     const [userInputs, setUserInputs] = useState({
         first_name: '',
@@ -94,7 +94,7 @@ const Register = ({ registered, error, registerUserAction, registerReset }) => {
                                 </div>
                                 <input
                                     onChange={onInputChange}
-                                    className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="first_name" id="firstname" />
+                                    className="pa2 input-reset ba bg-transparent w-100" type="text" name="first_name" id="firstname" />
                             </div>
                             <div className="pl2 pr2 mt3">
                                 <div>
@@ -103,7 +103,7 @@ const Register = ({ registered, error, registerUserAction, registerReset }) => {
                                 </div>
                                 <input
                                     onChange={onInputChange}
-                                    className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="last_name" id="lastname" />
+                                    className="pa2 input-reset ba bg-transparent w-100" type="text" name="last_name" id="lastname" />
                             </div>
                             <div className="pl2 pr2 mt3">
                                 <div>
@@ -112,7 +112,7 @@ const Register = ({ registered, error, registerUserAction, registerReset }) => {
                                 </div>
                                 <input
                                     onChange={onInputChange}
-                                    className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email" id="email-address" />
+                                    className="pa2 input-reset ba bg-transparent w-100" type="email" name="email" id="email-address" />
                             </div>
                             <div className=" pl2 pr2 mv3">
                                 <div>
@@ -121,7 +121,7 @@ const Register = ({ registered, error, registerUserAction, registerReset }) => {
                                 </div>
                                 <input
                                     onChange={onInputChange}
-                                    className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password"
+                                    className="b pa2 input-reset ba bg-transparent w-100" type="password"
                                     name="password" id="password" />
                             </div>
 
@@ -130,8 +130,8 @@ const Register = ({ registered, error, registerUserAction, registerReset }) => {
                             <button
                                 onClick={onSubmitRegister}
                                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" >
-                                {/* {props.isPending.pending ? <div className="loader"></div> :
-                                    <span>Register</span>} */}
+                                {pending ? <div className="loader"></div> :
+                                    <span>Register</span>}
                             </button>
                         </div>
 
@@ -143,9 +143,10 @@ const Register = ({ registered, error, registerUserAction, registerReset }) => {
 }
 
 
-const mapStateToProps = ({ register: { registered, error } }) => ({
+const mapStateToProps = ({ register: { registered, error, isPending } }) => ({
     registered: registered,
-    error: error
+    error: error,
+    pending: isPending
 });
 
 const mapDispatchToProps = dispatch => ({

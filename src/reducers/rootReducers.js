@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { imageInput, isPending, toggleProfile } from './userReducers';
+import { imageInput, toggleProfile } from './userReducers';
 import login from './authAndProfileReducers';
 import register from './registerReducer';
 

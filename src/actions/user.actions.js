@@ -9,7 +9,7 @@ import {
 
 export const submitImage = (ImageURL) => ({
     type: SUBMIT_IMAGE,
-    payload: ImageURL
+    payload: { ImageURL, pending: true }
 });
 
 export const toggleModal = () => ({
