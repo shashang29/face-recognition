@@ -73,7 +73,7 @@ const Signin = props => {
                                 <span className='red f6 '>{errors.password}</span>
                             </div>
                             <input
-                                onChange={handleInputChange} className="b pa2 input-reset ba bg-transparent w-100" type="password"
+                                onChange={handleInputChange} className="pa2 input-reset ba bg-transparent w-100" type="password"
                                 name="password" id="password" />
                         </div>
 

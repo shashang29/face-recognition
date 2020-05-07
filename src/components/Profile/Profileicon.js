@@ -25,8 +25,8 @@ const ProfileIcon = ({ toggleModal, signOut, resetImageState }) => {
                     aria-expanded={dropdownOpen}
                 >
                     <img
-                        src="http://tachyons.io/img/logo.jpg"
-                        className="br-100 h3 w3 dib" alt="avatar" />
+                        src="https://cdn.icon-icons.com/icons2/1097/PNG/512/1485477097-avatar_78580.png"
+                        className="br-100 h3 w3 dib hover-bg-white grow" alt="avatar" />
                 </DropdownToggle>
                 <DropdownMenu
 
