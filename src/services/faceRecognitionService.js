@@ -1,6 +1,6 @@
 export const faceRecognitionService = ({ payload }) => {
     const imageurl = payload;
-    return fetch('http://localhost:3005/imageurl', {
+    return fetch('http://52.66.20.46:3005/imageurl', {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -15,7 +15,7 @@ export const faceRecognitionService = ({ payload }) => {
 }
 
 export const updateImageService = (userId) => {
-    return fetch('http://localhost:3005/image', {
+    return fetch('http://52.66.20.46:3005/image', {
         method: 'put',
         headers: {
             'Content-Type': 'application/json',

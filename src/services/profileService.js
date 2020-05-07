@@ -1,5 +1,5 @@
 export const updateProfileService = (userData) => {
-    return fetch(`http://localhost:3005/profile/${userData.id}`, {
+    return fetch(`http://52.66.20.46:3005/profile/${userData.id}`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',

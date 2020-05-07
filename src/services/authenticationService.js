@@ -1,6 +1,6 @@
 const getUserdata = (userId) => {
     const token = window.sessionStorage.getItem('token');
-    return fetch(`http://localhost:3005/profile/${userId}`,
+    return fetch(`http://52.66.20.46:3005/profile/${userId}`,
         {
             method: 'get',
             headers: {
@@ -13,7 +13,7 @@ const getUserdata = (userId) => {
 }
 
 export const loginUserService = ({ email, password }) => {
-    return fetch('http://localhost:3005/signin', {
+    return fetch('http://52.66.20.46:3005/signin', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -26,25 +26,13 @@ export const loginUserService = ({ email, password }) => {
             if (data.userId && data.success === 'true') {
                 window.sessionStorage.setItem('token', data.token);
             }
-            return getUserdata(data.userId)
-
-            // return fetch(`http://localhost:3005/profile/${data.userId}`,
-            //     {
-            //         method: 'get',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //             'Authorization': data.token
-            //         }
-            //     })
-            //     .then(response => response.json())
-            //     .catch(err => err)
-
+            return getUserdata(data.userId);
         })
 };
 
 
 export const registerUserService = ({ userData }) => {
-    return fetch('http://localhost:3005/register', {
+    return fetch('http://52.66.20.46:3005/register', {
         method: 'post',
         headers: { 'Content-Type': 'application/json', },
         body: JSON.stringify({
@@ -60,7 +48,7 @@ export const registerUserService = ({ userData }) => {
 }
 
 export const sessionService = (token) => {
-    return fetch('http://localhost:3005/signin', {
+    return fetch('http://52.66.20.46:3005/signin', {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
