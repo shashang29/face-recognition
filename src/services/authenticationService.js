@@ -1,6 +1,6 @@
 const getUserdata = (userId) => {
     const token = window.sessionStorage.getItem('token');
-    return fetch(`http://52.66.20.46:3005/profile/${userId}`,
+    return fetch(`https://b0ea91c4.ngrok.io/profile/${userId}`,
         {
             method: 'get',
             headers: {
@@ -13,7 +13,7 @@ const getUserdata = (userId) => {
 }
 
 export const loginUserService = ({ email, password }) => {
-    return fetch('http://52.66.20.46:3005/signin', {
+    return fetch('https://b0ea91c4.ngrok.io/signin', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -32,7 +32,7 @@ export const loginUserService = ({ email, password }) => {
 
 
 export const registerUserService = ({ userData }) => {
-    return fetch('http://52.66.20.46:3005/register', {
+    return fetch('https://b0ea91c4.ngrok.io/register', {
         method: 'post',
         headers: { 'Content-Type': 'application/json', },
         body: JSON.stringify({
@@ -48,7 +48,7 @@ export const registerUserService = ({ userData }) => {
 }
 
 export const sessionService = (token) => {
-    return fetch('http://52.66.20.46:3005/signin', {
+    return fetch('https://b0ea91c4.ngrok.io/signin', {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 export const faceRecognitionService = ({ payload }) => {
     const imageurl = payload;
-    return fetch('http://52.66.20.46:3005/imageurl', {
+    return fetch('https://b0ea91c4.ngrok.io/imageurl', {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -15,7 +15,7 @@ export const faceRecognitionService = ({ payload }) => {
 }
 
 export const updateImageService = (userId) => {
-    return fetch('http://52.66.20.46:3005/image', {
+    return fetch('https://b0ea91c4.ngrok.io/image', {
         method: 'put',
         headers: {
             'Content-Type': 'application/json',
