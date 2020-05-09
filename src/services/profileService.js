@@ -1,5 +1,5 @@
 export const updateProfileService = (userData) => {
-    return fetch(`https://b0ea91c4.ngrok.io/profile/${userData.id}`, {
+    return fetch(`http://ec2-52-66-20-46.ap-south-1.compute.amazonaws.com:3005/profile/${userData.id}`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',

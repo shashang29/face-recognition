@@ -1,6 +1,6 @@
 export const faceRecognitionService = ({ payload }) => {
     const imageurl = payload;
-    return fetch('https://b0ea91c4.ngrok.io/imageurl', {
+    return fetch('http://ec2-52-66-20-46.ap-south-1.compute.amazonaws.com:3005/imageurl', {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -15,7 +15,7 @@ export const faceRecognitionService = ({ payload }) => {
 }
 
 export const updateImageService = (userId) => {
-    return fetch('https://b0ea91c4.ngrok.io/image', {
+    return fetch('http://ec2-52-66-20-46.ap-south-1.compute.amazonaws.com:3005/image', {
         method: 'put',
         headers: {
             'Content-Type': 'application/json',
