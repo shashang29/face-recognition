@@ -38,7 +38,9 @@ export const loginUserService = ({ email, password }) => {
 export const registerUserService = ({ userData }) => {
     return fetch(`${BACKEND_URL}/register`, {
         method: 'post',
-        headers: { 'Content-Type': 'application/json', },
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
             first_name: userData.first_name,
             last_name: userData.last_name,
