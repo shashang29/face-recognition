@@ -1,6 +1,8 @@
+import BACKEND_URL from './backend-Url';
+
 const getUserdata = (userId) => {
     const token = window.sessionStorage.getItem('token');
-    return fetch(`http://ec2-52-66-20-46.ap-south-1.compute.amazonaws.com:3005/${userId}`,
+    return fetch(`${BACKEND_URL}/profile/${userId}`,
         {
             method: 'get',
             headers: {
@@ -13,10 +15,10 @@ const getUserdata = (userId) => {
 }
 
 export const loginUserService = ({ email, password }) => {
-    return fetch('http://ec2-52-66-20-46.ap-south-1.compute.amazonaws.com:3005/signin', {
+    return fetch(`${BACKEND_URL}/signin`, {
         method: 'post',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             email: email,
@@ -34,7 +36,7 @@ export const loginUserService = ({ email, password }) => {
 
 
 export const registerUserService = ({ userData }) => {
-    return fetch('http://ec2-52-66-20-46.ap-south-1.compute.amazonaws.com:3005/register', {
+    return fetch(`${BACKEND_URL}/register`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json', },
         body: JSON.stringify({
@@ -50,7 +52,7 @@ export const registerUserService = ({ userData }) => {
 }
 
 export const sessionService = (token) => {
-    return fetch('http://ec2-52-66-20-46.ap-south-1.compute.amazonaws.com:3005/signin', {
+    return fetch(`${BACKEND_URL}/signin`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',

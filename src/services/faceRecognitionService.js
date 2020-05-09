@@ -1,6 +1,8 @@
+import BACKEND_URL from './backend-Url';
+
 export const faceRecognitionService = ({ payload }) => {
     const imageurl = payload;
-    return fetch('http://ec2-52-66-20-46.ap-south-1.compute.amazonaws.com:3005/imageurl', {
+    return fetch(`${BACKEND_URL}/imageurl`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -15,7 +17,7 @@ export const faceRecognitionService = ({ payload }) => {
 }
 
 export const updateImageService = (userId) => {
-    return fetch('http://ec2-52-66-20-46.ap-south-1.compute.amazonaws.com:3005/image', {
+    return fetch(`${BACKEND_URL}/image`, {
         method: 'put',
         headers: {
             'Content-Type': 'application/json',
