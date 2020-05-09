@@ -1,5 +1,7 @@
+import BACKEND_URL from './backend-Url';
+
 export const updateProfileService = (userData) => {
-    return fetch(`https://b0ea91c4.ngrok.io/profile/${userData.id}`, {
+    return fetch(`${BACKEND_URL}/profile/${userData.id}`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',

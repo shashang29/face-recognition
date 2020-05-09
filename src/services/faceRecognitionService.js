@@ -1,6 +1,8 @@
+import BACKEND_URL from './backend-Url';
+
 export const faceRecognitionService = ({ payload }) => {
     const imageurl = payload;
-    return fetch('https://b0ea91c4.ngrok.io/imageurl', {
+    return fetch(`${BACKEND_URL}/imageurl`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -15,7 +17,7 @@ export const faceRecognitionService = ({ payload }) => {
 }
 
 export const updateImageService = (userId) => {
-    return fetch('https://b0ea91c4.ngrok.io/image', {
+    return fetch(`${BACKEND_URL}/image`, {
         method: 'put',
         headers: {
             'Content-Type': 'application/json',
