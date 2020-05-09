@@ -1,6 +1,5 @@
 import { put, call } from 'redux-saga/effects';
 
-
 import { loginUserService, registerUserService, sessionService } from '../services/authenticationService';
 import { userConstants } from '../constants/userAuth.constants';
 import { signInSuccess, signInFailed } from '../actions/userAuth.actions';
@@ -18,7 +17,6 @@ export function* sigininSaga({ payload }) {
         console.log(error)
         yield put(signInFailed(error.message))
     }
-
 }
 
 export function* getUserDataSaga({ payload }) {
@@ -31,9 +29,7 @@ export function* getUserDataSaga({ payload }) {
         console.log(error)
         yield put(signInFailed(error.message))
     }
-
 }
-
 
 export function* registerSaga(payload) {
     const response = yield call(registerUserService, payload);

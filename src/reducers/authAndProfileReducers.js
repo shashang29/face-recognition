@@ -9,7 +9,7 @@ const initialUserState = {
 }
 
 const { SIGNIN_REQUEST,
-    SIGNIN_FAILED, SIGNIN_SUCCESS, SIGN_OUT
+    SIGNIN_FAILED, SIGNIN_SUCCESS, SIGN_OUT, RESET_SIGNIN_ERROR
 } = userConstants;
 
 
@@ -21,6 +21,8 @@ export default function (state = initialUserState, action = {}) {
             return { ...state, isSignedIn: true, isPending: false, error: null, user: action.payload };
         case SIGNIN_FAILED:
             return { ...state, error: action.payload, isPending: false }
+        case RESET_SIGNIN_ERROR:
+            return { ...state, error: null }
         case UPDATE_IMAGE_COUNT:
             return { ...state, user: { ...state.user, entries: action.payload } }
         case UPDATE_PROFILE:

@@ -19,6 +19,9 @@ export const signInFailed = error => ({
     payload: error
 });
 
+export const resetError = () => ({
+    type: userConstants.RESET_SIGNIN_ERROR
+});
 
 export const getUserData = (token) => {
     return {

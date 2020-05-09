@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { validateAll } from 'indicative/validator';
-import { loginUserRequest } from '../../actions/userAuth.actions';
+import { loginUserRequest, resetError } from '../../actions/userAuth.actions';
 
-const Signin = props => {
 
+const Signin = ({ resetError, pending, error, signinRequest }) => {
+
+    useEffect(() => {
+        return () => resetError();
+    }, [resetError])
     const [userInputs, setUserInputs] = useState({
         email: '',
         password: ''
@@ -21,12 +25,10 @@ const Signin = props => {
             ...errors,
             [target.name]: ''
         })
-
     }
 
     const onSubmitSignIn = (event) => {
         event.preventDefault();
-        const { signinRequest } = props;
         const data = userInputs;
         const rules = {
             email: 'required|email',
@@ -46,11 +48,9 @@ const Signin = props => {
                 err.forEach(error =>
                     formattedErrors[error.field] = error.message)
                 setErrors({ ...formattedErrors })
-
             })
     }
 
-    const { pending, error } = props;
     return (
         <form onSubmit={onSubmitSignIn}
             className="br3 ba b--black-10 mv4 w-100 w-50-m w-30-l mw6 shadow-3 center">
@@ -90,13 +90,11 @@ const Signin = props => {
                         <Link to='/register'>
                             <p className="f5 link dim black db pointer" >Register</p>
                         </Link>
-
                     </div>
                 </div>
             </main>
         </form>
     )
-
 }
 
 const mapStateToProps = ({ login: { isPending, error } }) => ({
@@ -106,7 +104,8 @@ const mapStateToProps = ({ login: { isPending, error } }) => ({
 
 const mapDispatchToProps = dispatch => ({
     signinRequest: (email, password) =>
-        dispatch(loginUserRequest({ email, password }))
-})
+        dispatch(loginUserRequest({ email, password })),
+    resetError: () => dispatch(resetError())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signin);
