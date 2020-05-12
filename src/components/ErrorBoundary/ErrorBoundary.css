@@ -1,0 +1,13 @@
+.errorImageOverlay {
+  height: 60vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.message {
+  font-size: 28px;
+  color: black;
+}
